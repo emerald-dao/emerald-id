@@ -90,10 +90,26 @@ export default function FlowProvider({children}) {
 
   const resetEmeraldIDWithMultiPartSign = async () => {
     try {
+      const scriptName = `resetEmeraldIDByAccount`;
       const serverSigner = serverAuthorization(scriptName, user)
 
       const transactionId = await fcl.send([
-        fcl.transaction``,
+        fcl.transaction`
+        import EmeraldIdentity from 0xEmeraldIdentity
+
+        // Signed by Administrator
+        transaction(account: Address) {
+            prepare(signer: AuthAccount) {
+                let administrator = signer.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)
+                                            ?? panic("Could not borrow the administrator")
+                administrator.removeByAccount(account: account)
+            }
+
+            execute {
+                log("Removed EmeraldID")
+            }
+        }
+        `,
         fcl.args([
             fcl.arg(user.addr, t.Address)
         ]),
