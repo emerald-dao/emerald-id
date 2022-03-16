@@ -13,6 +13,8 @@
     "@onflow/fcl": "0.0.78-alpha.6",
     "@onflow/types": "^0.0.6",
     "@picocss/pico": "^1.4.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "elliptic": "^6.5.4",
     "fcl-kms-authorizer": "^0.0.13",

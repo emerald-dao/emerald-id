@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useFlow } from "../context/FlowContext.js";
-import SuccessContainer from '../containers/SuccessContainer';
-import InProcess from '../containers/InProcessContainer';
-import FailContainer from '../containers/FailContainer';
-import "../flow/config";
+import { useFlow } from "../../context/FlowContext.js";
+import SuccessContainer from '../../containers/SuccessContainer';
+import InProcess from '../../containers/InProcessContainer';
+import FailContainer from '../../containers/FailContainer';
+import "../../flow/config";
 
 function Home(props) {
-    const {user, authentication, transactionStatus, txId, checkEmeraldID, initializeEmeraldID} = useFlow();
+    const {user, authentication, transactionStatus, txId, checkEmeraldID, createEmeraldIDWithMultiPartSign} = useFlow();
     const [status, setStatus] = useState("");
     const [classname, setClassname] = useState('Login');
 
@@ -25,7 +25,7 @@ function Home(props) {
     }
 
     const createEmeraldID = async () => {
-        const result = await initializeEmeraldID();
+        const result = await createEmeraldIDWithMultiPartSign();
 
         if (result) {
             setStatus("Success");

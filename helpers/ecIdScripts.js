@@ -3,43 +3,21 @@ const t = require("@onflow/types");
 
 const initializeEmeraldIDCode = () => {
     return `
-        import EmeraldID from 0xEmeraldID
+    import EmeraldIdentity from 0xEmeraldIdentity
 
-        transaction() {
-            prepare(signer: AuthAccount) {
-                signer.save(<- EmeraldID.createInfo(), to: EmeraldID.InfoStoragePath)
-                signer.link<&EmeraldID.Info{EmeraldID.InfoPublic}>(EmeraldID.InfoPublicPath, target: EmeraldID.InfoStoragePath)
-            }
+    // Signed by Administrator
+    transaction(account: Address, discordID: String) {
+        prepare(admin: AuthAccount) {
+            let administrator = admin.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)
+                                        ?? panic("Could not borrow the administrator")
+            administrator.createEmeraldID(account: account, discordID: discordID)
         }
+
+        execute {
+            log("Created EmeraldID")
+        }
+    }
     `;
-}
-
-const changeFieldCode = () => {
-    return `
-        import EmeraldID from 0xEmeraldID
-
-        transaction(field: String, value: String, acctAddress: Address, message: String, keyIds: [Int], signatures: [String], signatureBlock: UInt64) {
-
-          let Info: &EmeraldID.Info
-
-          prepare(signer: AuthAccount) {
-            self.Info = signer.borrow<&EmeraldID.Info>(from: EmeraldID.InfoStoragePath)
-                          ?? panic("The signer does not have an EmeraldID.")
-          }
-
-          execute {
-            self.Info.changeField(
-              field: field, 
-              value: value, 
-              acctAddress: acctAddress, 
-              message: message, 
-              keyIds: keyIds, 
-              signatures: signatures, 
-              signatureBlock: signatureBlock
-            )
-          }
-        }
-    `
 }
 
 const resetEmeraldIDByDiscordIDCode = () => {
@@ -83,6 +61,5 @@ const resetEmeraldIDByAccountCode = () => {
 export const trxScripts = {
     initializeEmeraldID: initializeEmeraldIDCode,
     resetEmeraldIDByDiscordID: resetEmeraldIDByDiscordIDCode,
-    resetEmeraldIDByAccount: resetEmeraldIDByAccountCode,
-    changeField: changeFieldCode
+    resetEmeraldIDByAccount: resetEmeraldIDByAccountCode
 }

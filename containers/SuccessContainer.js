@@ -1,8 +1,6 @@
 import Image from 'next/image'
-import { useFlow } from "../context/FlowContext.js";
 
 const SuccessContainer = () => {
-    const {addDiscordWithMultiPartSign, checkDiscord} = useFlow();
 
     return (
         <main className="App sucess">
@@ -20,11 +18,6 @@ const SuccessContainer = () => {
                     </div>
                 </div>
             </section>
-
-            <div style={{textAlign: "center"}}>
-                <button onClick={() => addDiscordWithMultiPartSign()}>Add Discord</button>
-                <button onClick={() => checkDiscord()}>Check Discord</button>
-            </div>
 
             <footer>
                 <div className="footerDiv">

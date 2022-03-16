@@ -1,11 +1,14 @@
-import { decrypt } from '../../../helpers/encryption.js';
+import 'dotenv/config';
+var CryptoJS = require("crypto-js");
 
 export default function handler (req, res) {
   const { discordID } = req.query;
+  console.log("Hello")
   try {
-    //   let decryptedDiscordID = decrypt(discordID);
+      let decryptedBytes = CryptoJS.AES.decrypt(decodeURIComponent(discordID), process.env.CRYPTO_KEY);
+      var decryptedDiscordID = decryptedBytes.toString(CryptoJS.enc.Utf8);
       res.json({
-          discordID: discordID // decryptedDiscordID
+        discordID: decryptedDiscordID
       })
   } catch(e) {
       res.status(500).json({

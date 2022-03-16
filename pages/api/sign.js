@@ -1,36 +1,26 @@
 import 'dotenv/config';
 
 import * as fcl from "@onflow/fcl";
-import * as t from "@onflow/types";
-import { Signer } from "fcl-kms-authorizer";
-import { fromEnv } from "@aws-sdk/credential-providers";
+import { decode } from 'rlp';
+import { SHA3 } from "sha3";
 
-const region = "us-east-1";
-const kmsKeyIds = [process.env.KMS_KEY_IDS];
+import { ec } from 'elliptic';
+import { trxScripts } from '../../helpers/ecIdScripts';
+const sig_algo = new ec('p256');
 
-const getInfoUUID = async (userAddr) => {
-  const response = await fcl.send([
-    fcl.script`
-    import EmeraldID from 0xEmeraldID
-
-    pub fun main(user: Address): UInt64 {
-      let info = getAccount(user).getCapability(EmeraldID.InfoPublicPath)
-                  .borrow<&EmeraldID.Info{EmeraldID.InfoPublic}>()
-                  ?? panic("This user does not have an EmeraldID")
-      return info.uuid
-    }
-    `,
-    fcl.args([
-      fcl.arg(userAddr, t.Address)
-    ])
-  ]).then(fcl.decode);
-
-  console.log({response});
-  return response;
+const sign = (message) => {
+    const key = sig_algo.keyFromPrivate(Buffer.from(process.env.EMULATOR_PRIVATE_KEY, "hex"))
+    const sig = key.sign(hash(message)) // hashMsgHex -> hash
+    const n = 32
+    const r = sig.r.toArrayLike(Buffer, "be", n)
+    const s = sig.s.toArrayLike(Buffer, "be", n)
+    return Buffer.concat([r, s]).toString("hex")
 }
 
-const getIntentScript = (field, userAddr, value) => {
-  return `CHANGE_${userAddr}_${field}_${value}`;
+const hash = (message) => {
+    const sha = new SHA3(256);
+    sha.update(Buffer.from(message, "hex"));
+    return sha.digest();
 }
 
 const verifyUserDataWithBlocto = async (user) => {
@@ -56,51 +46,29 @@ const verifyUserDataWithBlocto = async (user) => {
 }
 
 export default async function handler(req, res) {
-  const { field, user } = req.body;
+  const { user, signable, scriptName } = req.body;
 
-  console.log("FIELD: ", field);
-  console.log("USER: ", user);
+  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0xf8d6e0586b0a20c7');
 
   // validate user data with blocto
 
-  const isValid = await verifyUserDataWithBlocto(user);
-  if (!isValid) {
-      return res.status(500).json({ mesage: 'User data validate failed' });
-  }
+  // const isValid = await verifyUserDataWithBlocto(user);
+  // if (!isValid) {
+  //     return res.status(500).json({ mesage: 'User data validate failed' });
+  // }
 
   // User is now validated //
 
-  if (field === 'discord') {
-    /* Signature Stuff */
-    const identifier = await getInfoUUID(user.addr);
-    const discordId = "789012";
-    const intent = getIntentScript(field, user.addr, discordId);
-    const latestBlock = await fcl.latestBlock();
-    const prefix = Buffer.from(`${intent}${identifier}`).toString('hex');
-
-    const msg = "123456" // `${prefix}${latestBlock.id}`;
-
-    // Create an instance of the authorizer
-    const signer = new Signer(
-      // The first argument can be the same as the option for AWS client.
-      {
-        credentials: fromEnv(), // see. https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-providers#fromenv
-        region,
-      },
-      kmsKeyIds
-    );
-
-    const sig = await signer.signUserMessage(msg);
-
-    console.log({sig})
-    console.log({msg})
-    const admin = "0xfe433270356d985c";
-
-    const keyIds = [1];
-    const signatures = [sig];
-
-    res.json({ discordId, admin, msg, keyIds, signatures, height: latestBlock.height })
+  const { message } = signable;
+  const decoded = decode(Buffer.from(message.slice(64), 'hex'));
+  const cadence = decoded[0][0].toString();
+  const userTxArg = JSON.parse(decoded[0][1][0].toString()).value;
+  if ((scriptCode.replace(/\s/g, "") === cadence.replace(/\s/g, "") && (user.addr === userTxArg))) {
+      // when the code match , will sign the transaction
+      const signature = sign(message)
+      console.log({signature})
+      res.json({ signature })
   } else {
-    res.status(500).json({ message: 'Script code not supported' })
+      res.status(500).json({ message: 'Script code not supported' })
   }
 };
