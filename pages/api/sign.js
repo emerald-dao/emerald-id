@@ -6,7 +6,7 @@ import { SHA3 } from "sha3";
 
 import { ec } from 'elliptic';
 import { trxScripts } from '../../helpers/ecIdScripts';
-const sig_algo = new ec('p256');
+const sig_algo = new ec('secp256k1');
 
 const sign = (message) => {
     const key = sig_algo.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
