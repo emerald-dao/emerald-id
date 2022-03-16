@@ -21,7 +21,7 @@ const signWithVerify = async (args) => {
 export const getDiscordID = async (id) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/getDiscordID/${id}`,
+      `http://localhost:3000/api/getDiscordID/${encodeURIComponent(id)}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },

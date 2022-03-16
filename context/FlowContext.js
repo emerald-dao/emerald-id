@@ -11,7 +11,7 @@ export const useFlow = () => useContext(FlowContext);
 
 export default function FlowProvider({children}) {
   const router = useRouter()
-  const { id } = router.query
+  const { id } = router.query;
   const [user, setUser] = useState();
   const [transactionStatus, setTransactionStatus] = useState(-1);
   const [txId, setTxId] = useState();
