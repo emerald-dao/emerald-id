@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     const latestBlock = await fcl.latestBlock();
     const prefix = Buffer.from(`${intent}${identifier}`).toString('hex');
 
-    const msg = `${prefix}${latestBlock.id}`;
+    const msg = "123456" // `${prefix}${latestBlock.id}`;
 
     // Create an instance of the authorizer
     const signer = new Signer(
