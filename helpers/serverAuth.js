@@ -22,7 +22,7 @@ const signWithVerify = async (args) => {
 export const getDiscordID = async (id) => {
   try {
     const response = await fetch(
-      `http://id.ecdao.org/api/getDiscordID/${encodeURIComponent(id)}`,
+      `https://id.ecdao.org/api/getDiscordID/${encodeURIComponent(id)}`,
       // `http://localhost:3000/api/getDiscordID/${encodeURIComponent(id)}`,
       {
         method: 'GET',
