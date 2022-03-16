@@ -38,7 +38,7 @@ export const getDiscordID = async (id) => {
 
 export const serverAuthorization = (scriptName, user) => {
   return async (account) => {
-    const address = '0xf8d6e0586b0a20c7';
+    const address = '0xfe433270356d985c';
     const keyIndex = 0;
 
     return {
