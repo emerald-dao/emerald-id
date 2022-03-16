@@ -1,5 +1,3 @@
-import { trxScripts } from "../../helpers/ecIdScripts.js";
-import { decode } from 'rlp';
 import 'dotenv/config';
 
 import * as fcl from "@onflow/fcl";
@@ -9,26 +7,6 @@ import { fromEnv } from "@aws-sdk/credential-providers";
 
 const region = "us-east-1";
 const kmsKeyIds = [process.env.KMS_KEY_IDS];
-
-import { SHA3 } from "sha3";
-
-import { ec } from 'elliptic';
-var ec_secp256k1 = new ec('secp256k1');
-
-const sign = (message) => {
-    const key = ec_secp256k1.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
-    const sig = key.sign(hash(message)) // hashMsgHex -> hash
-    const n = 32
-    const r = sig.r.toArrayLike(Buffer, "be", n)
-    const s = sig.s.toArrayLike(Buffer, "be", n)
-    return Buffer.concat([r, s]).toString("hex")
-}
-
-const hash = (message) => {
-    const sha = new SHA3(256);
-    sha.update(Buffer.from(message, "hex"));
-    return sha.digest();
-}
 
 const getInfoUUID = async (userAddr) => {
   const response = await fcl.send([
@@ -99,19 +77,9 @@ export default async function handler(req, res) {
     const intent = getIntentScript(field, user.addr, discordId);
     const latestBlock = await fcl.latestBlock();
     const prefix = Buffer.from(`${intent}${identifier}`).toString('hex');
-    
-    const rightPaddedHexBuffer = (value, pad) => {
-      return Buffer.from(value.padEnd(pad * 2, 0), 'hex')
-    }
-
-    const USER_DOMAIN_TAG = rightPaddedHexBuffer(
-      Buffer.from('FLOW-V0.0-user').toString('hex'),
-      32
-    ).toString('hex');
 
     const msg = `${prefix}${latestBlock.id}`;
 
-    /* DO KMS LATER
     // Create an instance of the authorizer
     const signer = new Signer(
       // The first argument can be the same as the option for AWS client.
@@ -122,14 +90,13 @@ export default async function handler(req, res) {
       kmsKeyIds
     );
 
-    const keyIndex = 1;
+    const sig = await signer.signUserMessage(msg);
 
-    const sig = signer.sign(msg, keyIndex);
-    */
-    const sig = sign(USER_DOMAIN_TAG + msg);
+    console.log({sig})
+    console.log({msg})
     const admin = "0xfe433270356d985c";
 
-    const keyIds = [0];
+    const keyIds = [1];
     const signatures = [sig];
 
     res.json({ discordId, admin, msg, keyIds, signatures, height: latestBlock.height })
