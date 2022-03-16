@@ -9,7 +9,7 @@ import { trxScripts } from '../../helpers/ecIdScripts';
 const sig_algo = new ec('p256');
 
 const sign = (message) => {
-    const key = sig_algo.keyFromPrivate(Buffer.from(process.env.EMULATOR_PRIVATE_KEY, "hex"))
+    const key = sig_algo.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
     const sig = key.sign(hash(message)) // hashMsgHex -> hash
     const n = 32
     const r = sig.r.toArrayLike(Buffer, "be", n)
@@ -52,10 +52,10 @@ export default async function handler(req, res) {
 
   // validate user data with blocto
 
-  // const isValid = await verifyUserDataWithBlocto(user);
-  // if (!isValid) {
-  //     return res.status(500).json({ mesage: 'User data validate failed' });
-  // }
+  const isValid = await verifyUserDataWithBlocto(user);
+  if (!isValid) {
+      return res.status(500).json({ mesage: 'User data validate failed' });
+  }
 
   // User is now validated //
 
