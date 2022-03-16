@@ -1,0 +1,30 @@
+{
+  "name": "fcl-quickstart",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "removeECID": "flow accounts remove-contract EmeraldID --network=testnet --signer=testnet-account"
+  },
+  "dependencies": {
+    "@aws-sdk/credential-providers": "^3.54.0",
+    "@onflow/fcl": "0.0.78-alpha.6",
+    "@onflow/types": "^0.0.6",
+    "@picocss/pico": "^1.4.1",
+    "dotenv": "^16.0.0",
+    "elliptic": "^6.5.4",
+    "fcl-kms-authorizer": "^0.0.12",
+    "next": "12.0.7",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rlp": "^3.0.0",
+    "sha3": "^2.1.4"
+  },
+  "devDependencies": {
+    "eslint": "8.4.1",
+    "eslint-config-next": "12.0.7",
+    "prettier": "^2.5.1"
+  }
+}
