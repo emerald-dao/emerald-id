@@ -52,25 +52,25 @@ export default async function handler(req, res) {
 
   // validate user data with blocto
 
-  const isValid = await verifyUserDataWithBlocto(user);
-  if (!isValid) {
-    return res.status(500).json({ mesage: 'User data validate failed' });
-  }
+  // const isValid = await verifyUserDataWithBlocto(user);
+  // if (!isValid) {
+  //   return res.status(500).json({ mesage: 'User data validate failed' });
+  // }
 
   // User is now validated //
 
   const { message } = signable;
-  const decoded = decode(Buffer.from(message.slice(64), 'hex'));
-  const cadence = decoded[0][0].toString();
-  const userTxArg = JSON.parse(decoded[0][1][0].toString()).value;
+  // const decoded = decode(Buffer.from(message.slice(64), 'hex'));
+  // const cadence = decoded[0][0].toString();
+  // const userTxArg = JSON.parse(decoded[0][1][0].toString()).value;
 
-  if (scriptCode.replace(/\s/g, "") !== cadence.replace(/\s/g, "")) {
-    return res.status(500).json({ message: 'Script code not supported' })
-  } else if (user.addr !== userTxArg) {
-    return res.status(500).json({ message: 'Incorrect user argument' })
-  }
+  // if (scriptCode.replace(/\s/g, "") !== cadence.replace(/\s/g, "")) {
+  //   return res.status(500).json({ message: 'Script code not supported' })
+  // } else if (user.addr !== userTxArg) {
+  //   return res.status(500).json({ message: 'Incorrect user argument' })
+  // }
 
-  // If this is initialization, we need to check the discordID passed in.
+  // // If this is initialization, we need to check the discordID passed in.
   // if (scriptName === 'initializeEmeraldID') {
   //   // Gets the discord information based on the code
   //   const userResult = await fetch('https://discord.com/api/users/@me', {
