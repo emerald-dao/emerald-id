@@ -86,7 +86,6 @@ export default async function handler(req, res) {
   }
 
   // when the code match , will sign the transaction
-  const signature = sign(message)
-  console.log({ signature })
-  res.json({ signature })
+  const signature = sign(message);
+  res.json({ signature });
 };

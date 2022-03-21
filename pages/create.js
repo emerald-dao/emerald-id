@@ -30,8 +30,7 @@ function Create(props) {
 
     const setupProcess = async () => {
 
-        const exists = await checkEmeraldID(code);
-        console.log(exists)
+        const exists = await checkEmeraldID();
         if (!exists) {
             setStatus('InProcess');
             createEmeraldID();
