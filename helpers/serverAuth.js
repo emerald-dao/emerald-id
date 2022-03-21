@@ -13,10 +13,10 @@ const signWithVerify = async (args) => {
   )
 
   //TODO: add necessary corrections
-  const signed = await response.json()
+  const signed = await response.json();
   console.log({ signed })
 
-  return signed
+  return signed;
 }
 
 export const getDiscord = async (code) => {
@@ -29,7 +29,7 @@ export const getDiscord = async (code) => {
         headers: { 'Content-Type': 'application/json' },
       },
     )
-    const res = response.json()
+    const res = await response.json()
     return res
   } catch (error) {
     return ''
