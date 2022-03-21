@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 export default async function handler(req, res) {
   const { code } = req.query;
-  console.log("Hello")
   if (code) {
     try {
       const oauthResult = await fetch('https://discord.com/api/oauth2/token', {
