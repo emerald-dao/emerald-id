@@ -3,15 +3,12 @@ import * as fcl from '@onflow/fcl'
 import * as t from '@onflow/types'
 import { getDiscordID, serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
-import { useRouter } from 'next/router'
 
 export const FlowContext = createContext({});
 
 export const useFlow = () => useContext(FlowContext);
 
-export default function FlowProvider({children}) {
-  const router = useRouter()
-  const { id } = router.query;
+export default function FlowProvider({ children }) {
   const [user, setUser] = useState();
   const [transactionStatus, setTransactionStatus] = useState(-1);
   const [txId, setTxId] = useState();
@@ -26,30 +23,24 @@ export default function FlowProvider({children}) {
 
   const checkEmeraldID = async () => {
     const response = await fcl.send([
-        fcl.script`
+      fcl.script`
             import EmeraldIdentity from 0xEmeraldIdentity
             pub fun main(account: Address): String? {    
                 return EmeraldIdentity.getDiscordFromAccount(account: account)
             }
         `,
-        fcl.args([
-            fcl.arg(user.addr, t.Address)
-        ]),
-      ])
+      fcl.args([
+        fcl.arg(user.addr, t.Address)
+      ]),
+    ])
       .then(fcl.decode)
     return response
   }
 
-  const createEmeraldIDWithMultiPartSign = async () => {
+  const createEmeraldIDWithMultiPartSign = async (oauthData, discordID) => {
     try {
       const scriptName = 'initializeEmeraldID';
-      const { discordID = '' } = await getDiscordID(id);
-      const serverSigner = serverAuthorization(scriptName, user)
-
-      if (!discordID || discordID === '') {
-        console.log('cannot failed to get discordID')
-        return ''
-      }
+      const serverSigner = serverAuthorization(scriptName, user, oauthData);
 
       const transactionId = await fcl.send([
         fcl.transaction`
@@ -69,8 +60,8 @@ export default function FlowProvider({children}) {
         }
         `,
         fcl.args([
-            fcl.arg(user.addr, t.Address), 
-            fcl.arg(discordID, t.String)
+          fcl.arg(user.addr, t.Address),
+          fcl.arg(discordID, t.String)
         ]),
         fcl.proposer(fcl.authz),
         fcl.payer(serverSigner),
@@ -111,7 +102,7 @@ export default function FlowProvider({children}) {
         }
         `,
         fcl.args([
-            fcl.arg(user.addr, t.Address)
+          fcl.arg(user.addr, t.Address)
         ]),
         fcl.proposer(fcl.authz),
         fcl.payer(serverSigner),

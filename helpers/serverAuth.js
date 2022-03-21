@@ -3,8 +3,8 @@ import * as fcl from '@onflow/fcl'
 // sign transaction with verify the cadence code
 const signWithVerify = async (args) => {
   const response = await fetch(
-    'https://id.ecdao.org/api/sign',
-    // `http://localhost:3000/api/sign`,
+    // 'https://id.ecdao.org/api/sign',
+    `http://localhost:3000/api/sign`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -19,11 +19,11 @@ const signWithVerify = async (args) => {
   return signed
 }
 
-export const getDiscordID = async (id) => {
+export const getDiscord = async (code) => {
   try {
     const response = await fetch(
-      `https://id.ecdao.org/api/getDiscordID/${encodeURIComponent(id)}`,
-      // `http://localhost:3000/api/getDiscordID/${encodeURIComponent(id)}`,
+      // `https://id.ecdao.org/api/getDiscord/${encodeURIComponent(code)}`,
+      `http://localhost:3000/api/getDiscord/${encodeURIComponent(code)}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -36,7 +36,7 @@ export const getDiscordID = async (id) => {
   }
 }
 
-export const serverAuthorization = (scriptName, user) => {
+export const serverAuthorization = (scriptName, user, oauthData) => {
   return async (account) => {
     const address = '0xfe433270356d985c';
     const keyIndex = 0;
@@ -52,6 +52,7 @@ export const serverAuthorization = (scriptName, user) => {
           scriptName,
           signable,
           user,
+          oauthData
         })
 
         return {

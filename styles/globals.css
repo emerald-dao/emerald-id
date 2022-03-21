@@ -426,7 +426,7 @@ i:hover{
   font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
   font-size: 20px;
   line-height: 1.15;
-  margin: 12px 0 0;
+  margin: 0px;
   outline: none;
   overflow: hidden;
   padding: 0 25px;
@@ -438,8 +438,8 @@ i:hover{
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 300px;
-  height: 150px;
+  width: 250px;
+  height: 75px;
 }
 
 .button-9:disabled {
@@ -448,6 +448,10 @@ i:hover{
 
 .button-9:focus {
   box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+}
+
+.button-9:hover {
+  opacity: 80%;
 }
 
 .transaction-link {
@@ -480,4 +484,54 @@ i:hover{
   font-size:0.65rem;
   text-decoration:underline;
   padding-top: 20px;
+}
+
+/* creating */
+
+.create {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: #11191f;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.elementor {
+  position: relative;
+  margin: 0;
+  padding: 30px;
+  min-width: 40vw;
+  color: white;
+}
+
+.elementor > div {
+  margin-bottom: 50px;
+}
+
+.elementor img, .elementor button {
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+  text-align: center;
+  margin: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.elementor p {
+  text-align: center;
+}
+
+.elementor img:hover {
+  opacity: 80%;
+}
+
+.auth {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+
 }
