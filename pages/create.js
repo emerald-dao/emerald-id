@@ -66,7 +66,7 @@ function Create(props) {
                 <div className="elementor">
                     <div>
                         <h1>step 1: sign in</h1>
-                        <a href="https://discord.com/api/oauth2/authorize?client_id=955542718124294236&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcreate&response_type=code&scope=identify"><img src="/img/Discord_button.png" /></a>
+                        <a href="https://discord.com/api/oauth2/authorize?client_id=955542718124294236&redirect_uri=https%3A%2F%2Fid.ecdao.org%2Fcreate&response_type=code&scope=identify"><img src="/img/Discord_button.png" /></a>
                         <p>{discordInfo.username ? 'Hey there, ' + discordInfo.username + '!' : null}</p>
                     </div>
                     {oauthInfo && !oauthInfo.error
