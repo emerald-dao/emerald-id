@@ -52,10 +52,10 @@ export default async function handler(req, res) {
 
   // validate user data with blocto
 
-  // const isValid = await verifyUserDataWithBlocto(user);
-  // if (!isValid) {
-  //   return res.status(500).json({ mesage: 'User data validate failed' });
-  // }
+  const isValid = await verifyUserDataWithBlocto(user);
+  if (!isValid) {
+    return res.status(500).json({ mesage: 'User data validate failed' });
+  }
 
   // User is now validated //
 
