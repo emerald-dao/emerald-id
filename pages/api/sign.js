@@ -30,6 +30,7 @@ const verifyUserDataWithBlocto = async (user) => {
     return false;
   }
 
+  console.log(accountProofObject);
   const AccountProof = accountProofObject.data;
   const Address = AccountProof.address;
   const Timestamp = AccountProof.timestamp;
@@ -38,6 +39,7 @@ const verifyUserDataWithBlocto = async (user) => {
     Timestamp, // Timestamp associated with the authentication
     'APP-V0.0-user', // Application domain tag
   );
+  console.log(Message);
   const isValid = await fcl.verifyUserSignatures(
     Message,
     AccountProof.signatures
@@ -52,6 +54,7 @@ export default async function handler(req, res) {
 
   // validate user data with blocto
 
+  console.log(user);
   const isValid = await verifyUserDataWithBlocto(user);
   if (!isValid) {
     return res.status(500).json({ mesage: 'User data validate failed' });
