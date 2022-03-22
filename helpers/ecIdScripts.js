@@ -22,12 +22,12 @@ const initializeEmeraldIDCode = () => {
 
 const resetEmeraldIDByDiscordIDCode = () => {
     return `
-        import EmeraldID from 0xEmeraldID
+        import EmeraldIdentity from 0xEmeraldIdentity
 
         // Signed by Administrator
         transaction(discordID: String) {
             prepare(signer: AuthAccount) {
-                let administrator = signer.borrow<&EmeraldID.Administrator>(from: EmeraldID.AdministratorStoragePath)
+                let administrator = signer.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)
                                             ?? panic("Could not borrow the administrator")
                 administrator.removeByDiscord(discordID: discordID)
             }
