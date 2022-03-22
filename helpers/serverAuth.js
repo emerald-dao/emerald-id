@@ -3,7 +3,7 @@ import * as fcl from '@onflow/fcl'
 // sign transaction with verify the cadence code
 const signWithVerify = async (args) => {
   const response = await fetch(
-    'https://emerald-id.herokuapp.com/api/sign',
+    'https://id.ecdao.org/api/sign',
     // `http://localhost:3000/api/sign`,
     {
       method: 'POST',
@@ -22,7 +22,7 @@ const signWithVerify = async (args) => {
 export const getDiscord = async (code) => {
   try {
     const response = await fetch(
-      `https://emerald-id.herokuapp.com/api/getDiscord/${encodeURIComponent(code)}`,
+      `https://id.ecdao.org/api/getDiscord/${encodeURIComponent(code)}`,
       // `http://localhost:3000/api/getDiscord/${encodeURIComponent(code)}`,
       {
         method: 'GET',
