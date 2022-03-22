@@ -73,7 +73,7 @@ function Create(props) {
 
                         <div>
                             <h1>step 2: create EmeraldID</h1>
-                            <button className="button-9 green" onClick={() => setupProcess()}>Create EmeraldID</button>
+                            <img src="/img/Emerald_ID_light_button.png" onClick={() => setupProcess()} />
                         </div>
                         :
                         null
