@@ -10,7 +10,7 @@ import { trxScripts } from '../../helpers/ecIdScripts';
 const sig_algo = new ec('secp256k1');
 
 const sign = (message) => {
-  const key = sig_algo.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
+  const key = sig_algo.keyFromPrivate(Buffer.from(process.env.MAINNET_PRIVATE_KEY, "hex"))
   const sig = key.sign(hash(message)) // hashMsgHex -> hash
   const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
