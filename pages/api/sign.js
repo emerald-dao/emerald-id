@@ -50,7 +50,7 @@ const verifyUserDataWithBlocto = async (user) => {
 export default async function handler(req, res) {
   const { user, signable, scriptName, oauthData } = req.body;
 
-  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0xfe433270356d985c');
+  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0x39e42c67cc851cfb');
 
   // validate user data with blocto
 
