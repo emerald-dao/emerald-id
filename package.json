@@ -1,9 +1,6 @@
 {
   "name": "emerald-id",
   "version": "1.0.0",
-  "engines": {
-    "node": "16.13.1"
-  },
   "author": "Jacob Tucker",
   "license": "ISC",
   "scripts": {
