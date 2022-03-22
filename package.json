@@ -1,9 +1,11 @@
 {
-  "name": "fcl-quickstart",
-  "private": true,
+  "name": "emerald-id",
+  "version": "1.0.0",
   "engines": {
     "node": "16.13.1"
   },
+  "author": "Jacob Tucker",
+  "license": "ISC",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
