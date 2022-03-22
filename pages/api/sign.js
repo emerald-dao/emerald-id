@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import "../../flow/config.js";
 
 import * as fcl from "@onflow/fcl";
 import { decode } from 'rlp';
