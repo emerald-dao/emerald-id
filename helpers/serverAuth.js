@@ -3,8 +3,8 @@ import * as fcl from '@onflow/fcl'
 // sign transaction with verify the cadence code
 const signWithVerify = async (args) => {
   const response = await fetch(
-    'https://id.ecdao.org/api/sign',
-    // `http://localhost:3000/api/sign`,
+    // 'https://id.ecdao.org/api/sign',
+    `http://localhost:3000/api/sign`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
