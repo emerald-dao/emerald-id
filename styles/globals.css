@@ -607,6 +607,18 @@ i:hover {
     position: relative;
     left: -20px;
   }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  .create {
+    padding: 10px;
+  }
 }
 
 .rounded:hover {
