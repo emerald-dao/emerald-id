@@ -31,8 +31,6 @@ function Home(props) {
       checkAddress();
     } else {
       code = null;
-      setDiscordInfo(null);
-      setOAuthInfo(null);
     }
   }, [user])
 
