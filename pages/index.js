@@ -1,38 +1,43 @@
 import { useState, useEffect } from 'react';
 import { useFlow } from "../context/FlowContext.js";
-import SuccessContainer from '../containers/SuccessContainer';
-import InProcess from '../containers/InProcessContainer';
-import FailContainer from '../containers/FailContainer';
 import { useRouter } from 'next/router';
 import { getDiscord } from '../helpers/serverAuth.js';
 import "../flow/config";
 import LoggedIn from '../containers/LoggedIn.js';
+import Create from '../containers/Create.js';
 
-function Create(props) {
-  const { user, authentication, transactionStatus, txId, checkEmeraldIDFromAccount, checkEmeraldIDFromDiscord, createEmeraldIDWithMultiPartSign } = useFlow();
+function Home(props) {
+  const { user, authentication, checkEmeraldIDFromAccount, checkEmeraldIDFromDiscord } = useFlow();
   const router = useRouter();
   const { code } = router.query;
-  const [discordInfo, setDiscordInfo] = useState({ username: '' });
-  const [oauthInfo, setOAuthInfo] = useState({ error: 'initializing' });
-  const [status, setStatus] = useState("");
   const [existingUser, setExistingUser] = useState();
   const [mode, setMode] = useState();
+  const [secondary, setSecondary] = useState();
+  const [discordInfo, setDiscordInfo] = useState({ username: '' });
+  const [oauthInfo, setOAuthInfo] = useState({ error: 'initializing' });
 
+  // When the Discord code changes, check
+  // to see if this Discord is already mapped
+  // to an EmeraldID
   useEffect(() => {
     if (code) {
-      changeDiscordName();
+      checkDiscordName();
     }
   }, [code])
 
   useEffect(() => {
     setExistingUser(null);
     if (user && user.loggedIn) {
-      checkEmeraldIdExists();
+      checkAddress();
+    } else {
+      code = null;
+      setDiscordInfo(null);
+      setOAuthInfo(null);
     }
   }, [user])
 
   // Run when the redirect goes through
-  const changeDiscordName = async () => {
+  const checkDiscordName = async () => {
     let { info, oauthData } = await getDiscord(code);
     setDiscordInfo(info);
     setOAuthInfo(oauthData);
@@ -42,26 +47,18 @@ function Create(props) {
     if (exists) {
       setExistingUser(info.username);
       setMode('discord');
+      setSecondary(exists);
     }
   }
 
-  const checkEmeraldIdExists = async () => {
+  const checkAddress = async () => {
     const exists = await checkEmeraldIDFromAccount();
     if (exists) {
+      console.log("Hello")
       setExistingUser(user.addr);
       setMode('blocto');
     }
   }
-
-  const createEmeraldID = async () => {
-    const result = await createEmeraldIDWithMultiPartSign(oauthInfo, discordInfo.id);
-
-    if (result) {
-      setStatus("Success");
-    } else {
-      setStatus("Fail");
-    }
-  };
 
   if (!user || !user.loggedIn) {
     return (
@@ -73,7 +70,7 @@ function Create(props) {
           </button>
         </div>
         <div className="dapper">
-          <button className='rounded flex'>
+          <button className='rounded flex unavailable'>
             <img src="/img/dapper.png" />
             <h1 className="dapper-color">Login with Dapper</h1>
           </button>
@@ -82,46 +79,13 @@ function Create(props) {
     )
   } else if (existingUser) {
     return (
-      <LoggedIn user={existingUser} mode={mode} />
+      <LoggedIn user={existingUser} mode={mode} secondary={secondary} />
     )
   } else {
     return (
-      <>
-        <div className="create">
-          <button className="back-arrow" onClick={() => {
-            authentication();
-            router.push('/')
-          }}>&#8592;</button>
-          <h1 className="white welcome">Welcome to <span className="emerald-color">EmeraldID</span>, {user.addr}!</h1>
-
-          {status === 'Success'
-            ? <SuccessContainer />
-            : status === 'InProcess'
-              ? <InProcess transactionStatus={transactionStatus} txId={txId} />
-              : status === 'Fail'
-                ? <FailContainer />
-                :
-                <div className="elementor">
-                  <div>
-                    <h1>step 1: sign in</h1>
-                    <a href="https://discord.com/api/oauth2/authorize?client_id=951203104802607184&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code&scope=identify"><img className="format-img" src="/img/Discord_button.png" /></a>
-                    <p>{discordInfo.username ? 'Hey there, ' + discordInfo.username + '!' : null}</p>
-                  </div>
-                  {oauthInfo && !oauthInfo.error
-                    ?
-                    <div>
-                      <h1>step 2: create EmeraldID</h1>
-                      <img className="format-img" src="/img/Emerald_ID_light_button.png" onClick={createEmeraldID} />
-                    </div>
-                    :
-                    null
-                  }
-                </div>
-          }
-        </div>
-      </>
+      <Create discordInfo={discordInfo} oauthData={oauthInfo} />
     );
   }
 }
 
-export default Create;
+export default Home;

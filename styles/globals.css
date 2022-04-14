@@ -550,14 +550,17 @@ i:hover {
   border-radius: 100%;
 }
 
-.reset-color {
-  color: rgb(206, 67, 67);
+.reset-text {
   background: 0;
   outline: 0;
   border: 0;
   font-size: 20px;
   font-family: 'JetBrains Mono', monospace;
   cursor: pointer;
+}
+
+.red-text {
+  color: rgb(206, 67, 67);
 }
 
 .red {
@@ -589,6 +592,10 @@ i:hover {
   height: 105px;
   display: block;
   left: -35px;
+}
+
+.unavailable:hover {
+  opacity: .3;
 }
 
 @media all and (max-width: 700px) {
