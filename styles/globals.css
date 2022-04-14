@@ -1,6 +1,7 @@
 @import url("https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css");
 
-html, body{
+html,
+body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -26,7 +27,7 @@ html, body{
   animation: expand 1.3s ease forwards;
 }
 
-header{
+header {
   height: 70px;
   width: 100%;
   background-color: whitesmoke;
@@ -34,17 +35,18 @@ header{
   margin: 0;
 }
 
-header > h1{
+header>h1 {
   margin: 0;
   line-height: 70px;
   font-weight: 900;
 }
 
-section{
+section {
   margin: auto;
 }
 
-.sucessSection > .card, .failSection > .card {
+.sucessSection>.card,
+.failSection>.card {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,13 +62,13 @@ section{
   animation: expandCard 3s ease forwards;
 }
 
-.inProcessSection > .card {
+.inProcessSection>.card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-flow: column nowrap;
   position: absolute;
-  top:0;
+  top: 0;
   width: 600px;
   margin-left: -300px;
   padding-top: 150px;
@@ -74,7 +76,7 @@ section{
   animation: expandCard 3s ease forwards;
 }
 
-.card-shape1{
+.card-shape1 {
   position: absolute;
   width: 442px;
   height: 431px;
@@ -87,7 +89,7 @@ section{
   animation: rotate 30s linear infinite;
 }
 
-.inProcessSection > .card > .card-shape1 {
+.inProcessSection>.card>.card-shape1 {
   position: absolute;
   width: 442px;
   height: 431px;
@@ -100,7 +102,7 @@ section{
   animation: rotate 30s linear infinite;
 }
 
-.card-shape2{
+.card-shape2 {
   background: #000000;
   position: absolute;
   border-radius: 180px;
@@ -108,12 +110,12 @@ section{
   width: 492px;
   top: -160px;
   left: -96px;
-  opacity : 0.4;
-  z-index : 2;
-  animation : rotate 25s linear infinite;
+  opacity: 0.4;
+  z-index: 2;
+  animation: rotate 25s linear infinite;
 }
 
-.inProcessSection > .card > .card-shape2 {
+.inProcessSection>.card>.card-shape2 {
   background: #000000;
   position: absolute;
   left: 75px;
@@ -121,12 +123,12 @@ section{
   height: 428px;
   width: 492px;
   top: -200px;
-  opacity : 0.4;
-  z-index : 2;
-  animation : rotate 25s linear infinite;
+  opacity: 0.4;
+  z-index: 2;
+  animation: rotate 25s linear infinite;
 }
 
-.card-shape3{
+.card-shape3 {
   background-color: #000000;
   position: absolute;
   border-radius: 180px;
@@ -139,7 +141,7 @@ section{
   animation: rotate 32s linear infinite;
 }
 
-.inProcessSection > .card > .card-shape3 {
+.inProcessSection>.card>.card-shape3 {
   background-color: #000000;
   position: absolute;
   border-radius: 180px;
@@ -152,7 +154,7 @@ section{
   animation: rotate 32s linear infinite;
 }
 
-img{
+.format-img {
   z-index: 5;
   position: relative;
   width: 265px;
@@ -160,23 +162,23 @@ img{
   top: 9px;
 }
 
-.card h1{
+.card h1 {
   font-weight: 900;
 }
 
-.card p{
+.card p {
   font-weight: 500;
 }
 
-.text{
+.text {
   position: relative;
 }
 
-.text h1{
+.text h1 {
   color: #46d69a;
 }
 
-footer{
+footer {
   height: 60px;
   width: 100%;
   display: flex;
@@ -185,36 +187,36 @@ footer{
   z-index: 1;
 }
 
-footer::after{
+footer::after {
   padding-right: 60px;
   line-height: 50px;
 }
 
-.footerDiv{
+.footerDiv {
   animation: popup 3s ease-in;
 }
 
-.flowscan{
+.flowscan {
   text-decoration: none;
   color: black;
 }
 
-a{
+a {
   text-decoration: none;
   color: black;
 }
 
-i{
+i {
   margin: 5px;
   font-size: 30px;
 }
 
-i:hover{
+i:hover {
   color: whitesmoke;
   cursor: pointer;
 }
 
-.logoEmerald{
+.logoEmerald {
   position: absolute;
   top: 28px;
   left: 127px;
@@ -228,62 +230,75 @@ i:hover{
 
 @keyframes rotate {
   from {
-     transform : rotate(0)
+    transform: rotate(0)
   }
+
   to {
-    transform : rotate(1turn);
+    transform: rotate(1turn);
   }
 }
 
 
 @keyframes rotate1 {
-  0%   { transform: translateY(0) rotate(0); }
-  50%  { transform: translateY(-25px) rotate(180deg); }
-  100% { transform: translateY(0) rotate(360deg); }
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-25px) rotate(180deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
 }
 
 @keyframes expand {
-    0% {
-      transform: translateX(1400px);
-    }
-    100% {
-      transform: translateX(0px);
-    }
+  0% {
+    transform: translateX(1400px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
 }
 
 @keyframes expandCard {
-    0% {
-      transform: translateY(-1400px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
+  0% {
+    transform: translateY(-1400px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 @keyframes popup {
-    0%{
-      transform: scale(0);
-    }
-    80%{
-        transform: scale(0.01);
-    }
-    100%{
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(0);
+  }
+
+  80% {
+    transform: scale(0.01);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /*----------------  FAIL ---------------- */
 
-.fail{
+.fail {
   background-color: rgb(206, 67, 67);
 }
 
 
-.textFail h1{
+.textFail h1 {
   color: rgb(206, 67, 67);
 }
 
-.failCard img{
+.failCard img {
   left: 21px;
   width: 242px;
 }
@@ -291,21 +306,21 @@ i:hover{
 
 /*----------------  SETTING UP ---------------- */
 
-.inProcess{
+.inProcess {
   background-color: rgb(79, 198, 185);
 }
 
-.logoEmeraldBig{
+.logoEmeraldBig {
   z-index: 5;
   position: absolute;
   top: 40px;
-  left :50%;
+  left: 50%;
   margin-left: -74px;
   width: 148px;
   animation: justRotate 4s linear infinite;
 }
 
-.inProcess .text{
+.inProcess .text {
   top: 140px;
   display: flex;
   flex-direction: column;
@@ -313,7 +328,7 @@ i:hover{
   align-items: center;
 }
 
-.inProcess .text > h1{
+.inProcess .text>h1 {
   color: #0d211f;
   font-size: 35px;
   margin-top: 100px;
@@ -321,8 +336,13 @@ i:hover{
 }
 
 @keyframes justRotate {
-  0%   { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*
@@ -382,7 +402,7 @@ i:hover{
 }
 */
 
-.loadingTx > h1 {
+.loadingTx>h1 {
   background-color: rgb(27 40 50);
   color: rgb(250, 250, 250);
   font-size: 15px;
@@ -391,7 +411,7 @@ i:hover{
 }
 
 @media screen and (max-width: 600px) {
-  .inProcess .text > h1{
+  .inProcess .text>h1 {
     font-size: 20px;
   }
 }
@@ -416,14 +436,13 @@ i:hover{
 .button-9 {
   appearance: button;
   backface-visibility: hidden;
-  background-color: #405cf5;
   border-radius: 6px;
   border-width: 0;
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
   font-size: 20px;
   line-height: 1.15;
   margin: 0px;
@@ -434,12 +453,53 @@ i:hover{
   text-align: center;
   text-transform: none;
   transform: translateZ(0);
-  transition: all .2s,box-shadow .08s ease-in;
+  transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   width: 250px;
   height: 75px;
+  margin: 10px;
+}
+
+.blocto {
+  position: relative;
+  top: 0;
+  width: 100vw;
+  height: 49vh;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  color: #405cf5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dapper {
+  position: relative;
+  width: 100vw;
+  top: 2vh;
+  height: 49vh;
+  background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+  color: #9900f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blocto-color {
+  color: #a1c4fd;
+}
+
+.dapper-color {
+  color: #b565da;
+}
+
+.blue {
+  background-color: #405cf5;
+}
+
+.purple {
+  background-color: #9900f0;
 }
 
 .button-9:disabled {
@@ -467,11 +527,114 @@ i:hover{
   background-color: #46d69a;
 }
 
+.emerald-color {
+  color: #37e2c1;
+}
+
+.back-arrow {
+  position: fixed;
+  top: 5px;
+  left: 25px;
+  background: 0;
+  color: white;
+  outline: 0;
+  border: 0;
+  font-size: 75px;
+  cursor: pointer;
+}
+
+.span-image {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+  border-radius: 100%;
+}
+
+.reset-text {
+  background: 0;
+  outline: 0;
+  border: 0;
+  font-size: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+}
+
+.red-text {
+  color: rgb(206, 67, 67);
+}
 
 .red {
   padding: 10px;
   background-color: rgb(206, 67, 67);
 }
+
+.white {
+  color: #fff;
+}
+
+.rounded {
+  background-color: white;
+  border-radius: 100px;
+  border: 0;
+  outline: 0;
+  display: flex;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+
+.rounded img {
+  position: relative;
+  border-radius: 100%;
+  width: 105px;
+  height: 105px;
+  display: block;
+  left: -35px;
+}
+
+.unavailable:hover {
+  opacity: .3;
+}
+
+@media all and (max-width: 700px) {
+  .rounded {
+    width: 300px;
+  }
+
+  .rounded img {
+    position: relative;
+    left: -20px;
+  }
+}
+
+.rounded:hover {
+  animation: glide-down .5s forwards;
+}
+
+.grid {
+  display: grid;
+}
+
+@keyframes glide-down {
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
 
 /*
 
@@ -481,8 +644,8 @@ i:hover{
 } */
 
 .sublink {
-  font-size:0.65rem;
-  text-decoration:underline;
+  font-size: 0.65rem;
+  text-decoration: underline;
   padding-top: 20px;
 }
 
@@ -498,6 +661,12 @@ i:hover{
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.welcome {
+  position: fixed;
+  top: 10vh;
 }
 
 .elementor {
@@ -508,11 +677,12 @@ i:hover{
   color: white;
 }
 
-.elementor > div {
+.elementor>div {
   margin-bottom: 50px;
 }
 
-.elementor img, .elementor button {
+.elementor img,
+.elementor button {
   transition: all .3s ease-in-out;
   cursor: pointer;
   text-align: center;
@@ -527,11 +697,4 @@ i:hover{
 
 .elementor img:hover {
   opacity: 80%;
-}
-
-.auth {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-
 }

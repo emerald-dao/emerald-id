@@ -8,7 +8,7 @@ const InProcess = (props) => {
 
             <section className="inProcessSection">
                 <div className="card">
-                    <img src="/emerald_logo.png" className="logoEmeraldBig" />
+                    <img src="/emerald_logo.png" className="logoEmeraldBig format-img" />
                     <div className="card-shape1"></div>
                     <div className="card-shape2"></div>
                     <div className="card-shape3"></div>
@@ -27,7 +27,7 @@ const InProcess = (props) => {
                 </div>
             </footer>
 
-    </main>
+        </main>
     )
 }
 

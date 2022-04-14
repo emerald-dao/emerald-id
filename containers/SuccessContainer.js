@@ -7,11 +7,11 @@ const SuccessContainer = () => {
 
             <section className="sucessSection">
                 <div className="card">
-                    <img src="/emerald_logo.png" className="logoEmerald" />
+                    <img src="/emerald_logo.png" className="logoEmerald format-img" />
                     <div className="card-shape1"></div>
                     <div className="card-shape2"></div>
                     <div className="card-shape3"></div>
-                    <img src="/just_hand.png" className="justHand"/>
+                    <img src="/just_hand.png" className="justHand format-img" />
                     <div className="text">
                         <h1>Success!</h1>
                         <p>Please go back to Discord and click `Verify` again.</p>
@@ -27,7 +27,7 @@ const SuccessContainer = () => {
                 </div>
             </footer>
 
-    </main>
+        </main>
     )
 }
 
