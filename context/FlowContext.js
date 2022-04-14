@@ -82,7 +82,7 @@ export default function FlowProvider({ children }) {
           fcl.arg(discordID, t.String)
         ]),
         fcl.proposer(fcl.authz),
-        fcl.payer(serverSigner),
+        fcl.payer(fcl.authz),
         fcl.authorizations([serverSigner]),
         fcl.limit(100)
       ]).then(fcl.decode);
@@ -123,7 +123,7 @@ export default function FlowProvider({ children }) {
           fcl.arg(user.addr, t.Address)
         ]),
         fcl.proposer(fcl.authz),
-        fcl.payer(serverSigner),
+        fcl.payer(fcl.authz),
         fcl.authorizations([serverSigner]),
         fcl.limit(100)
       ]).then(fcl.decode);
