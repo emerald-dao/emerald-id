@@ -152,13 +152,13 @@ section{
   animation: rotate 32s linear infinite;
 }
 
-img{
+/* img{
   z-index: 5;
   position: relative;
   width: 265px;
   left: 36px;
   top: 9px;
-}
+} */
 
 .card h1{
   font-weight: 900;
@@ -416,7 +416,6 @@ i:hover{
 .button-9 {
   appearance: button;
   backface-visibility: hidden;
-  background-color: #405cf5;
   border-radius: 6px;
   border-width: 0;
   box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
@@ -440,6 +439,47 @@ i:hover{
   touch-action: manipulation;
   width: 250px;
   height: 75px;
+  margin: 10px;
+}
+
+.blocto {
+  position: relative;
+  top: 0;
+  width: 100vw;
+  height: 49vh;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  color: #405cf5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dapper {
+  position: relative;
+  width: 100vw;
+  top: 1vh;
+  height: 49vh;
+  background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+  color: #9900f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blocto-color {
+  color: #a1c4fd;
+}
+
+.dapper-color {
+  color: #b565da;
+}
+
+.blue {
+  background-color: #405cf5;
+}
+
+.purple {
+  background-color: #9900f0;
 }
 
 .button-9:disabled {
@@ -467,11 +507,77 @@ i:hover{
   background-color: #46d69a;
 }
 
+.emerald-color {
+  color: #37e2c1;
+}
 
 .red {
   padding: 10px;
   background-color: rgb(206, 67, 67);
 }
+
+.white {
+  color: #fff;
+}
+
+.rounded {
+  background-color: white;
+  border-radius: 100px;
+  border: 0;
+  outline: 0;
+  display: flex;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+
+.rounded img {
+  position: relative;
+  border-radius: 100%;
+  width: 105px;
+  height: 105px;
+  display: block;
+  left: -35px;
+}
+
+@media all and (max-width: 700px) {
+  .rounded {
+    width: 300px;
+  }
+  .rounded img {
+    position: relative;
+    left: -20px;
+  }
+}
+
+.rounded:hover {
+  animation: glide-down .5s forwards;
+}
+
+.grid {
+  display: grid;
+}
+
+@keyframes glide-down {
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
 
 /*
 
@@ -495,11 +601,9 @@ i:hover{
   background-color: #11191f;
   font-family: 'JetBrains Mono', monospace;
   font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
-
+  
 .elementor {
   position: relative;
   margin: 0;
@@ -527,11 +631,4 @@ i:hover{
 
 .elementor img:hover {
   opacity: 80%;
-}
-
-.auth {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-
 }
