@@ -624,6 +624,10 @@ i:hover {
     width: 25px;
     height: 25px;
   }
+
+  .reset-text {
+    font-size: 15px;
+  }
 }
 
 .rounded:hover {
