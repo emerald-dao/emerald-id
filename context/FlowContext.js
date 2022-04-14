@@ -58,7 +58,6 @@ export default function FlowProvider({ children }) {
   const createEmeraldIDWithMultiPartSign = async (oauthData, discordID) => {
     try {
       const scriptName = 'initializeEmeraldID';
-      console.log(user);
       const serverSigner = serverAuthorization(scriptName, user, oauthData);
 
       const transactionId = await fcl.send([

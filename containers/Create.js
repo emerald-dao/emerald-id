@@ -10,7 +10,7 @@ function Create(props) {
   const [status, setStatus] = useState("");
 
   const createEmeraldID = async () => {
-    const result = await createEmeraldIDWithMultiPartSign(props.oauthInfo, props.discordInfo.id);
+    const result = await createEmeraldIDWithMultiPartSign(props.oauthData, props.discordInfo.id);
 
     if (result) {
       setStatus("Success");
