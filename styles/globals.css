@@ -628,6 +628,11 @@ i:hover {
   .reset-text {
     font-size: 15px;
   }
+
+  .back-arrow {
+    top: 3px;
+    left: 10px;
+  }
 }
 
 .rounded:hover {
