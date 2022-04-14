@@ -34,7 +34,7 @@ function Create(props) {
             <div className="elementor">
               <div>
                 <h1>step 1: sign in</h1>
-                <a href="https://discord.com/api/oauth2/authorize?client_id=951203104802607184&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code&scope=identify"><img className="format-img" src="/img/Discord_button.png" /></a>
+                <a href="https://discord.com/api/oauth2/authorize?client_id=955542718124294236&redirect_uri=https%3A%2F%2Fid.ecdao.org%2F&response_type=code&scope=identify"><img className="format-img" src="/img/Discord_button.png" /></a>
                 <p>{props.discordInfo?.username ? 'Hey there, ' + props.discordInfo.username + '!' : null}</p>
               </div>
               {props.oauthData && !props.oauthData.error
