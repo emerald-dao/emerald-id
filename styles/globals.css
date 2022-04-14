@@ -619,6 +619,11 @@ i:hover {
   .create {
     padding: 10px;
   }
+
+  .span-image {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .rounded:hover {
