@@ -21,7 +21,7 @@ export default function FlowProvider({ children }) {
     }
   }
 
-  const checkEmeraldID = async () => {
+  const checkEmeraldIDFromAccount = async () => {
     const response = await fcl.send([
       fcl.script`
             import EmeraldIdentity from 0xEmeraldIdentity
@@ -34,6 +34,24 @@ export default function FlowProvider({ children }) {
       ]),
     ])
       .then(fcl.decode)
+    console.log(response)
+    return response
+  }
+
+  const checkEmeraldIDFromDiscord = async (discordId) => {
+    const response = await fcl.send([
+      fcl.script`
+            import EmeraldIdentity from 0xEmeraldIdentity
+            pub fun main(discordID: String): Address? {    
+                return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
+            }
+        `,
+      fcl.args([
+        fcl.arg(discordId, t.String)
+      ]),
+    ])
+      .then(fcl.decode)
+    console.log(response)
     return response
   }
 
@@ -132,7 +150,8 @@ export default function FlowProvider({ children }) {
     transactionStatus,
     setUser,
     authentication,
-    checkEmeraldID,
+    checkEmeraldIDFromAccount,
+    checkEmeraldIDFromDiscord,
     createEmeraldIDWithMultiPartSign,
     resetEmeraldIDWithMultiPartSign
   }

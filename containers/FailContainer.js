@@ -10,7 +10,7 @@ const FailContainer = () => {
                     <div className="card-shape1"></div>
                     <div className="card-shape2"></div>
                     <div className="card-shape3"></div>
-                    <img src="/fail_emerald.png" className="justHand"/>
+                    <img src="/fail_emerald.png" className="justHand format-img" />
                     <div className="text textFail">
                         <h1>Fail!</h1>
                         <p>Please try again or contact someone from our community and we will help you.</p>

@@ -10,7 +10,7 @@ import { trxScripts } from '../../helpers/ecIdScripts';
 const ec_p256 = new ec('p256');
 
 const sign = (message) => {
-  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.MAINNET_PRIVATE_KEY, "hex"))
+  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.EMULATOR_PRIVATE_KEY, "hex"))
   const sig = key.sign(hash(message)) // hashMsgHex -> hash
   const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
@@ -50,14 +50,14 @@ const verifyUserDataWithBlocto = async (user) => {
 export default async function handler(req, res) {
   const { user, signable, scriptName, oauthData } = req.body;
 
-  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0x39e42c67cc851cfb');
+  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0xf8d6e0586b0a20c7');
 
   // validate user data with blocto
 
-  const isValid = await verifyUserDataWithBlocto(user);
-  if (!isValid) {
-    return res.status(500).json({ mesage: 'User data validate failed' });
-  }
+  // const isValid = await verifyUserDataWithBlocto(user);
+  // if (!isValid) {
+  //   return res.status(500).json({ mesage: 'User data validate failed' });
+  // }
 
   // User is now validated //
 
