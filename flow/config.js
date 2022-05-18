@@ -5,7 +5,8 @@ config({
   "app.detail.icon": "https://i.imgur.com/DJD0298.png",
   // "accessNode.api": "http://localhost:8080",
   // "discovery.wallet": "http://localhost:8701/fcl/authn", // dev wallet
-  "accessNode.api": "https://mainnet.onflow.org",
-  "discovery.wallet": "https://fcl-discovery.onflow.org/authn",
-  "0xEmeraldIdentity": "0x39e42c67cc851cfb", // The account address where the smart contract lives
+  "accessNode.api": "https://rest-testnet.onflow.org",
+  "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
+  "0xEmeraldIdentity": "0x356c7027d3b1f757", // The account address where the smart contract lives
+  "flow.network": "testnet"
 })

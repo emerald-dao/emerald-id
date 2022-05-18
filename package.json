@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/credential-providers": "^3.54.0",
-    "@onflow/fcl": "0.0.78-alpha.6",
+    "@onflow/fcl": "1.0.1",
     "@onflow/types": "^0.0.6",
     "@picocss/pico": "^1.4.1",
     "crypto": "^1.0.1",
@@ -24,6 +24,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rlp": "^3.0.0",
+    "sass": "^1.51.0",
     "sha3": "^2.1.4"
   },
   "devDependencies": {

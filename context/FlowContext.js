@@ -3,6 +3,7 @@ import * as fcl from '@onflow/fcl'
 import * as t from '@onflow/types'
 import { getDiscordID, serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
+import { verifyUserSignatures } from '@onflow/fcl';
 
 export const FlowContext = createContext({});
 
@@ -17,7 +18,17 @@ export default function FlowProvider({ children }) {
     if (user && user.addr) {
       fcl.unauthenticate()
     } else {
-      fcl.authenticate()
+      await fcl.authenticate()
+      const thing = Buffer.from('Hello there!').toString('hex')
+      console.log(thing)
+      const sig = await fcl.currentUser.signUserMessage(thing);
+      console.log(sig);
+      const isValid = await fcl.AppUtils.verifyUserSignatures(
+        thing,
+        sig,
+        {fclCryptoContract: null}
+      );
+      console.log(isValid)
     }
   }
 
@@ -142,6 +153,11 @@ export default function FlowProvider({ children }) {
     // fcl
     fcl.currentUser.subscribe(setUser)
   }, [])
+
+  useEffect(() => {
+    // fcl
+    console.log(user);
+  }, [user])
 
   const value = {
     user,
