@@ -1,11 +1,14 @@
 import FlowProvider from "../context/FlowContext";
+import DiscordProvider from "../context/DiscordContext";
 import "../styles/globals.css";
 
-const MyApp = ({Component, pageProps}) => {
+const MyApp = ({ Component, pageProps }) => {
   return (
-    <FlowProvider>
-      <Component {...pageProps} />
-    </FlowProvider>
+    <DiscordProvider>
+      <FlowProvider>
+        <Component {...pageProps} />
+      </FlowProvider>
+    </DiscordProvider>
   )
 }
 

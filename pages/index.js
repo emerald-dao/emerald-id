@@ -1,5 +1,5 @@
 import styles from '../styles/Home.module.scss'
-import Nav from '../components/Nav.jsx';
+import Nav from '../components/Nav/Nav.jsx';
 import Wallets from '../components/Wallets/Wallets.jsx';
 import Works from '../components/Works/Works.jsx';
 
