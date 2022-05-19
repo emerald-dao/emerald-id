@@ -26,3 +26,28 @@ h1, h2, h3 {
   width: 100px;
   background-color: aquamarine;
 }
+
+.blocto-color {
+  color: #365bea;
+}
+
+.emerald-id-color {
+  color: #37dabc;
+}
+
+.white-color {
+  color: #fff;
+}
+
+.flexContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+}
+
+a {
+  color: #37dabc;
+  text-decoration: none;
+}

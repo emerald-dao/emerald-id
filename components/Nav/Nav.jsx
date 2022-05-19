@@ -26,10 +26,10 @@ function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <div className="flex">
+      <a className="flex white-color" href="/">
         <img src="/img/emerald_logo.png" alt="EmeraldID Logo" />
         <h1>EmeraldID</h1>
-      </div>
+      </a>
       <User />
     </nav>
   )

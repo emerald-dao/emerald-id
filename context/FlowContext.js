@@ -4,6 +4,9 @@ import * as t from '@onflow/types'
 import { getDiscordID, serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
 import { verifyUserSignatures } from '@onflow/fcl';
+import "../flow/config";
+import { useRouter } from 'next/router';
+import { useDiscord } from './DiscordContext.js';
 
 export const FlowContext = createContext({});
 
@@ -13,43 +16,85 @@ export default function FlowProvider({ children }) {
   const [user, setUser] = useState();
   const [transactionStatus, setTransactionStatus] = useState(-1);
   const [txId, setTxId] = useState();
+  const [createMessage, setCreateMessage] = useState('');
+  const router = useRouter();
+  const { discordId } = useDiscord();
 
   const authentication = async () => {
-    if (user && user.addr) {
-      fcl.unauthenticate()
+    unauthenticate();
+    const user = await fcl.authenticate();
+    const message = await checkExists(user.addr, discordId);
+    setCreateMessage(message);
+    const authnService = user.services[0].uid;
+    if (authnService.includes('blocto')) {
+      await router.push('/blocto');
+    } else if (authnService.includes('lilico')) {
+      await router.push('/lilico');
     } else {
-      await fcl.authenticate()
-      const thing = Buffer.from('Hello there!').toString('hex')
-      console.log(thing)
-      const sig = await fcl.currentUser.signUserMessage(thing);
-      console.log(sig);
-      const isValid = await fcl.AppUtils.verifyUserSignatures(
-        thing,
-        sig,
-        {fclCryptoContract: null}
-      );
-      console.log(isValid)
+      unauthenticate();
     }
   }
 
-  const checkEmeraldIDFromAccount = async () => {
-    const response = await fcl.send([
-      fcl.script`
-            import EmeraldIdentity from 0xEmeraldIdentity
-            pub fun main(account: Address): String? {    
-                return EmeraldIdentity.getDiscordFromAccount(account: account)
-            }
-        `,
-      fcl.args([
-        fcl.arg(user.addr, t.Address)
-      ]),
-    ])
-      .then(fcl.decode)
-    console.log(response)
-    return response
+  // 1. Check if it exists with the Discord
+  //  a) If it does and matches user address, say good.
+  //  b) If it does and doesn't match user address, say go to that account.
+  //  c) If it doesn't, go to 2.
+  // 2. Check if it exists with user address
+  //  a) If it does, say go to that Discord account.
+  //  b) If it doesn't say create.
+  const checkExists = async (address, discordId) => {
+    const existsWithDiscord = await checkBloctoEmeraldIDDiscord(discordId);
+    if (existsWithDiscord === address) {
+      return 'CREATED';
+    } else if (existsWithDiscord) {
+      // Returns 0x...
+      return existsWithDiscord;
+    } else {
+      // The Discord does not exist in a mapping.
+      const existsWithAccount = await checkBloctoEmeraldIDAccount(address);
+      if (existsWithAccount) {
+        // Returns DiscordId
+        return existsWithAccount;
+      } else {
+        return 'NONE';
+      }
+    }
   }
 
-  const checkEmeraldIDFromDiscord = async (discordId) => {
+  const unauthenticate = () => {
+    fcl.unauthenticate();
+  }
+
+  const verify = async () => {
+    const thing = Buffer.from('Hello there!').toString('hex')
+    console.log(thing)
+    const sig = await fcl.currentUser.signUserMessage(thing);
+    console.log(sig);
+    const isValid = await fcl.AppUtils.verifyUserSignatures(
+      thing,
+      sig,
+      { fclCryptoContract: null }
+    );
+    console.log(isValid)
+  }
+
+  const checkBloctoEmeraldIDAccount = async (address) => {
+    const response = await fcl.send([
+      fcl.script`
+      import EmeraldIdentity from 0xEmeraldIdentity
+      pub fun main(account: Address): String? {    
+          return EmeraldIdentity.getDiscordFromAccount(account: account)
+      }
+      `,
+      fcl.args([
+        fcl.arg(address, t.Address)
+      ]),
+    ]).then(fcl.decode);
+    console.log(response);
+    return response;
+  }
+
+  const checkBloctoEmeraldIDDiscord = async (discordId) => {
     const response = await fcl.send([
       fcl.script`
             import EmeraldIdentity from 0xEmeraldIdentity
@@ -163,10 +208,10 @@ export default function FlowProvider({ children }) {
     user,
     txId,
     transactionStatus,
+    createMessage,
     setUser,
     authentication,
-    checkEmeraldIDFromAccount,
-    checkEmeraldIDFromDiscord,
+    unauthenticate,
     createEmeraldIDWithMultiPartSign,
     resetEmeraldIDWithMultiPartSign
   }
