@@ -1,5 +1,6 @@
 import { createContext } from 'react'
 import { useContext, useState } from 'react';
+import { useEffect } from 'react';
 
 export const DiscordContext = createContext({});
 
@@ -20,6 +21,10 @@ export default function DiscordProvider({ children }) {
     localStorage.removeItem('oauthData');
     checkUpdates();
   }
+
+  useEffect(() => {
+    checkUpdates();
+  }, [])
 
   const value = {
     discordUsername,

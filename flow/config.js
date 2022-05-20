@@ -6,7 +6,7 @@ config({
   // "accessNode.api": "http://localhost:8080",
   // "discovery.wallet": "http://localhost:8701/fcl/authn", // dev wallet
   "accessNode.api": "https://rest-testnet.onflow.org",
-  "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
+  "discovery.wallet": "https://flow-wallet-testnet.blocto.app/authn", // https://fcl-discovery.onflow.org/testnet/authn",
   "0xEmeraldIdentity": "0x356c7027d3b1f757", // The account address where the smart contract lives
   "flow.network": "testnet"
 })

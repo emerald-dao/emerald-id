@@ -3,8 +3,8 @@ import * as fcl from '@onflow/fcl'
 // sign transaction with verify the cadence code
 const signWithVerify = async (args) => {
   const response = await fetch(
-    'https://id.ecdao.org/api/sign',
-    // `http://localhost:3000/api/sign`,
+    // 'https://id.ecdao.org/api/sign',
+    `http://localhost:3000/api/sign`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,9 +36,9 @@ export const getDiscord = async (code) => {
   }
 }
 
-export const serverAuthorization = (scriptName, user, oauthData) => {
+export const serverAuthorization = (scriptName, sig, oauthData) => {
   return async (account) => {
-    const address = '0x39e42c67cc851cfb';
+    const address = '0x356c7027d3b1f757';
     const keyIndex = 0;
 
     return {
@@ -51,7 +51,7 @@ export const serverAuthorization = (scriptName, user, oauthData) => {
         const signature = await signWithVerify({
           scriptName,
           signable,
-          user,
+          sig,
           oauthData
         })
 

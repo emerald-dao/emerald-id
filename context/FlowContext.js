@@ -1,21 +1,20 @@
 import { useState, useEffect, createContext } from 'react'
 import * as fcl from '@onflow/fcl'
 import * as t from '@onflow/types'
-import { getDiscordID, serverAuthorization } from '../helpers/serverAuth.js'
+import { serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
-import { verifyUserSignatures } from '@onflow/fcl';
 import "../flow/config";
 import { useRouter } from 'next/router';
 import { useDiscord } from './DiscordContext.js';
+import { useTransaction } from './TransactionContext.js';
 
 export const FlowContext = createContext({});
 
 export const useFlow = () => useContext(FlowContext);
 
 export default function FlowProvider({ children }) {
-  const [user, setUser] = useState();
-  const [transactionStatus, setTransactionStatus] = useState(-1);
-  const [txId, setTxId] = useState();
+  const { setTxId, setTransactionStatus, initTransactionState, setTransactionInProgress, transactionInProgress } = useTransaction();
+  const [user, setUser] = useState(); 
   const [createMessage, setCreateMessage] = useState('');
   const router = useRouter();
   const { discordId } = useDiscord();
@@ -23,8 +22,7 @@ export default function FlowProvider({ children }) {
   const authentication = async () => {
     unauthenticate();
     const user = await fcl.authenticate();
-    const message = await checkExists(user.addr, discordId);
-    setCreateMessage(message);
+    await checkExists(user.addr, discordId);
     const authnService = user.services[0].uid;
     if (authnService.includes('blocto')) {
       await router.push('/blocto');
@@ -43,20 +41,21 @@ export default function FlowProvider({ children }) {
   //  a) If it does, say go to that Discord account.
   //  b) If it doesn't say create.
   const checkExists = async (address, discordId) => {
+    console.log(address)
     const existsWithDiscord = await checkBloctoEmeraldIDDiscord(discordId);
     if (existsWithDiscord === address) {
-      return 'CREATED';
+      setCreateMessage('CREATED');
     } else if (existsWithDiscord) {
       // Returns 0x...
-      return existsWithDiscord;
+      setCreateMessage(existsWithDiscord);
     } else {
       // The Discord does not exist in a mapping.
       const existsWithAccount = await checkBloctoEmeraldIDAccount(address);
       if (existsWithAccount) {
         // Returns DiscordId
-        return existsWithAccount;
+        setCreateMessage(existsWithAccount);
       } else {
-        return 'NONE';
+        setCreateMessage('NONE');
       }
     }
   }
@@ -65,56 +64,54 @@ export default function FlowProvider({ children }) {
     fcl.unauthenticate();
   }
 
-  const verify = async () => {
-    const thing = Buffer.from('Hello there!').toString('hex')
-    console.log(thing)
-    const sig = await fcl.currentUser.signUserMessage(thing);
-    console.log(sig);
-    const isValid = await fcl.AppUtils.verifyUserSignatures(
-      thing,
-      sig,
-      { fclCryptoContract: null }
-    );
-    console.log(isValid)
-  }
-
   const checkBloctoEmeraldIDAccount = async (address) => {
-    const response = await fcl.send([
-      fcl.script`
-      import EmeraldIdentity from 0xEmeraldIdentity
-      pub fun main(account: Address): String? {    
-          return EmeraldIdentity.getDiscordFromAccount(account: account)
-      }
-      `,
-      fcl.args([
-        fcl.arg(address, t.Address)
-      ]),
-    ]).then(fcl.decode);
-    console.log(response);
-    return response;
+    try {
+      const response = await fcl.send([
+        fcl.script`
+        import EmeraldIdentity from 0xEmeraldIdentity
+        pub fun main(account: Address): String? {    
+            return EmeraldIdentity.getDiscordFromAccount(account: account)
+        }
+        `,
+        fcl.args([
+          fcl.arg(address, t.Address)
+        ]),
+      ]).then(fcl.decode);
+      console.log(response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const checkBloctoEmeraldIDDiscord = async (discordId) => {
-    const response = await fcl.send([
-      fcl.script`
-            import EmeraldIdentity from 0xEmeraldIdentity
-            pub fun main(discordID: String): Address? {    
-                return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
-            }
-        `,
-      fcl.args([
-        fcl.arg(discordId, t.String)
-      ]),
-    ])
-      .then(fcl.decode)
-    console.log(response)
-    return response
+    try {
+      const response = await fcl.send([
+        fcl.script`
+              import EmeraldIdentity from 0xEmeraldIdentity
+              pub fun main(discordID: String): Address? {    
+                  return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
+              }
+          `,
+        fcl.args([
+          fcl.arg(discordId, t.String)
+        ]),
+      ]).then(fcl.decode)
+      console.log(response)
+      return response
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  const createEmeraldIDWithMultiPartSign = async (oauthData, discordID) => {
+  const createBloctoEmeraldID = async () => {
+    const message = Buffer.from(`Create my own EmeraldID`).toString('hex');
+    const sig = await fcl.currentUser.signUserMessage(message);
+    const oauthData = JSON.parse(localStorage.getItem('oauthData'));
     try {
-      const scriptName = 'initializeEmeraldID';
-      const serverSigner = serverAuthorization(scriptName, user, oauthData);
+      initTransactionState();
+      const scriptName = 'createEmeraldID';
+      const serverSigner = serverAuthorization(scriptName, sig, oauthData);
 
       const transactionId = await fcl.send([
         fcl.transaction`
@@ -135,28 +132,35 @@ export default function FlowProvider({ children }) {
         `,
         fcl.args([
           fcl.arg(user.addr, t.Address),
-          fcl.arg(discordID, t.String)
+          fcl.arg(discordId, t.String)
         ]),
         fcl.proposer(fcl.authz),
         fcl.payer(fcl.authz),
         fcl.authorizations([serverSigner]),
         fcl.limit(100)
       ]).then(fcl.decode);
-      console.log({ transactionId });
       setTxId(transactionId);
 
-      fcl.tx(transactionId).subscribe((res) => { return setTransactionStatus(res.status); })
+      fcl.tx(transactionId).subscribe((res) => {
+        setTransactionStatus(res.status);
+        if (res.status === 4) {
+          setTimeout(() => setTransactionInProgress(false), 2000)
+        }
+      })
       return fcl.tx(transactionId).onceSealed();
     } catch (e) {
+      setTimeout(() => setTransactionInProgress(false), 2000)
       console.log(e);
-      return false;
     }
   }
 
-  const resetEmeraldIDWithMultiPartSign = async () => {
+  const resetBloctoEmeraldID = async () => {
+    const message = Buffer.from(`Reset my EmeraldID`).toString('hex');
+    const sig = await fcl.currentUser.signUserMessage(message);
     try {
-      const scriptName = `resetEmeraldIDByAccount`;
-      const serverSigner = serverAuthorization(scriptName, user)
+      initTransactionState();
+      const scriptName = `resetEmeraldID`;
+      const serverSigner = serverAuthorization(scriptName, sig);
 
       const transactionId = await fcl.send([
         fcl.transaction`
@@ -183,21 +187,30 @@ export default function FlowProvider({ children }) {
         fcl.authorizations([serverSigner]),
         fcl.limit(100)
       ]).then(fcl.decode);
-      console.log({ transactionId });
       setTxId(transactionId);
 
-      fcl.tx(transactionId).subscribe((res) => { return setTransactionStatus(res.status); })
+      fcl.tx(transactionId).subscribe((res) => {
+        setTransactionStatus(res.status);
+        if (res.status === 4) {
+          setTimeout(() => setTransactionInProgress(false), 2000);
+        }
+      })
       return fcl.tx(transactionId).onceSealed();
     } catch (e) {
-      console.log(e);
+      setTimeout(() => setTransactionInProgress(false), 2000)
       return false;
     }
   }
 
   useEffect(() => {
     // fcl
-    fcl.currentUser.subscribe(setUser)
+    fcl.currentUser.subscribe(setUser);
+    checkExists();
   }, [])
+
+  useEffect(() => {
+    checkExists();
+  }, [transactionInProgress])
 
   useEffect(() => {
     // fcl
@@ -206,14 +219,12 @@ export default function FlowProvider({ children }) {
 
   const value = {
     user,
-    txId,
-    transactionStatus,
     createMessage,
     setUser,
     authentication,
     unauthenticate,
-    createEmeraldIDWithMultiPartSign,
-    resetEmeraldIDWithMultiPartSign
+    createBloctoEmeraldID,
+    resetBloctoEmeraldID
   }
 
   return <FlowContext.Provider value={value}>{children}</FlowContext.Provider>

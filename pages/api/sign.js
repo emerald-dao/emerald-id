@@ -10,7 +10,7 @@ import { trxScripts } from '../../helpers/ecIdScripts';
 const ec_p256 = new ec('p256');
 
 const sign = (message) => {
-  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.MAINNET_PRIVATE_KEY, "hex"))
+  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
   const sig = key.sign(hash(message)) // hashMsgHex -> hash
   const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
@@ -24,37 +24,24 @@ const hash = (message) => {
   return sha.digest();
 }
 
-const verifyUserDataWithBlocto = async (user) => {
-  // Validate the user
-  let accountProofObject = user.services.filter((service) => service.type === 'account-proof')[0]
-  if (!accountProofObject) {
-    return false;
-  }
-
-  const AccountProof = accountProofObject.data;
-  const Address = AccountProof.address;
-  const Timestamp = AccountProof.timestamp;
-  const Message = fcl.WalletUtils.encodeMessageForProvableAuthnVerifying(
-    Address, // Address of the user authenticating
-    Timestamp, // Timestamp associated with the authentication
-    'APP-V0.0-user', // Application domain tag
-  );
-
-  const isValid = await fcl.verifyUserSignatures(
-    Message,
-    AccountProof.signatures
-  );
-  return isValid;
-}
-
 export default async function handler(req, res) {
-  const { user, signable, scriptName, oauthData } = req.body;
+  const { sig, signable, scriptName, oauthData } = req.body;
 
-  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0x39e42c67cc851cfb');
+  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0x356c7027d3b1f757');
 
-  // validate user data with blocto
+  const address = sig[0].addr;
 
-  const isValid = await verifyUserDataWithBlocto(user);
+  // Verify user signature //
+  const signedMessage = scriptName === 'createEmeraldID' 
+    ? Buffer.from(`Create my own EmeraldID`).toString('hex')
+    : scriptName === 'resetEmeraldID' 
+    ? Buffer.from(`Reset my EmeraldID`).toString('hex')
+    : null;
+  const isValid = await fcl.AppUtils.verifyUserSignatures(
+    signedMessage,
+    sig,
+    { fclCryptoContract: null }
+  );
   if (!isValid) {
     return res.status(500).json({ mesage: 'User data validate failed' });
   }
@@ -68,12 +55,12 @@ export default async function handler(req, res) {
 
   if (scriptCode.replace(/\s/g, "") !== cadence.replace(/\s/g, "")) {
     return res.status(500).json({ message: 'Script code not supported' })
-  } else if (user.addr !== userTxArg) {
+  } else if (address !== userTxArg) {
     return res.status(500).json({ message: 'Incorrect user argument' })
   }
 
   // If this is initialization, we need to check the discordID passed in.
-  if (scriptName === 'initializeEmeraldID') {
+  if (scriptName === 'createEmeraldID') {
     // Gets the discord information based on the code
     const userResult = await fetch('https://discord.com/api/users/@me', {
       headers: {

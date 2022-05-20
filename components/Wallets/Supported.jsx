@@ -2,7 +2,7 @@ import styles from "../../styles/Wallets.module.scss";
 import { useFlow } from "../../context/FlowContext";
 import { useRouter } from "next/router";
 
-function Supported({ imgSrc, wallet, description, color }) {
+function Supported({ imgSrc, wallet, description, color, released }) {
   const router = useRouter();
   const { authentication } = useFlow();
   return (
@@ -11,7 +11,11 @@ function Supported({ imgSrc, wallet, description, color }) {
       <div className={styles.info}>
         <h3>{wallet}</h3>
         <p>{description}</p>
-        <button style={{backgroundImage: color}} onClick={authentication}>Connect {wallet}</button>
+        {released
+          ? <button style={{ backgroundImage: color }} onClick={authentication}>Connect {wallet}</button>
+          : <button style={{ backgroundImage: color, opacity: .3, cursor: 'default' }} >Coming soon...</button>
+        }
+
       </div>
     </div>
   )

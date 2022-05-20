@@ -13,12 +13,14 @@ function Wallets() {
           wallet={'Blocto'}
           description={'Unleashing the full potential of blockchain technology has never been easier. Manage your crypto, dApps, and NFT all-in-once through Blocto, the cross-chain crypto wallet.'}
           color={'linear-gradient(135deg,#72e9f3 -20%,#404de6 120%)'}
+          released={true}
         />
         <Supported
           imgSrc={"/img/lilico-logo.jpg"}
           wallet={'Lilico'}
           description={'The first wallet extension on Flow.'}
           color={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'}
+          released={false}
         />
       </div>
     </div>

@@ -18,7 +18,7 @@
 
   @media all and (max-width: 700px) {
     h1 {
-      font-size: 50px;
+      font-size: 30px;
     }
     
     p {
@@ -45,5 +45,9 @@
     bottom: 30px;
     color: white;
     font-weight: bold;
+  }
+
+  @media all and (max-width: 700px) {
+    width: 300px;
   }
 }
