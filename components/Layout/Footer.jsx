@@ -12,7 +12,7 @@ function Footer() {
           <div className={`${styles.flexContainer}`}>
             <p>2022. All rights reserved.</p>
             <Link href="/">
-              <Logo />
+              <a><Logo /></a>
             </Link>
             <p>
               Created by <a href="https://discord.gg/emeraldcity" target="_blank" rel="noreferrer">Emerald City DAO</a>
