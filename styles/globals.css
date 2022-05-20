@@ -39,6 +39,10 @@ h1, h2, h3 {
   color: #fff;
 }
 
+.lilico-color {
+  color: #fc814a;
+}
+
 .flexContainer {
   display: flex;
   flex-direction: column-reverse;

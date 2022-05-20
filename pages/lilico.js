@@ -1,10 +1,23 @@
+import Create from "../components/Create/Create";
+import Differing from "../components/Create/Differing";
+import Owned from "../components/Create/Owned";
+import NotLoggedIn from "../components/Create/NotLoggedIn";
+import { useDiscord } from "../context/DiscordContext";
+import { useFlow } from "../context/FlowContext";
+import styles from "../styles/Wallet.module.scss";
 
 function Lilico() {
+  const { createMessage } = useFlow();
+  const { discordId } = useDiscord();
   return (
-    <div>
-      <h1><span>EmeraldID</span> {'<>'} <span style={{color: '#fff'}}>{wallet}</span></h1>
-        <p>Link your <span style={{color: '#5865F2'}}>Discord</span> to all of your <span style={{color: '#16ff99'}}>Flow</span> wallets so you only ever have to verify your wallet once.</p>
-    </div>
+    <>
+      <div className={styles.wallet}>
+        <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="lilico-color">Lilico</span></h1>
+        <p>Begin verifying all of your Lilico assets.</p>
+      </div>
+      <div className={styles.section}>
+      </div>
+    </>
   )
 }
 
