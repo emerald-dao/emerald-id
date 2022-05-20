@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import "../../flow/config.js";
 
 import * as fcl from "@onflow/fcl";
@@ -10,7 +9,7 @@ import { trxScripts } from '../../helpers/ecIdScripts';
 const ec_p256 = new ec('p256');
 
 const sign = (message) => {
-  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.TESTNET_PRIVATE_KEY, "hex"))
+  const key = ec_p256.keyFromPrivate(Buffer.from(process.env.PRIVATE_KEY, "hex"))
   const sig = key.sign(hash(message)) // hashMsgHex -> hash
   const n = 32
   const r = sig.r.toArrayLike(Buffer, "be", n)
@@ -27,7 +26,7 @@ const hash = (message) => {
 export default async function handler(req, res) {
   const { sig, signable, scriptName, oauthData } = req.body;
 
-  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', '0x356c7027d3b1f757');
+  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', process.env.NEXT_PUBLIC_CONTRACT);
 
   const address = sig[0].addr;
 

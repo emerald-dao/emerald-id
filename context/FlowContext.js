@@ -22,10 +22,10 @@ export default function FlowProvider({ children }) {
   function configureProperDiscovery(wallet) {
     if (wallet === 'Blocto') {
       fcl.config()
-        .put("discovery.wallet", "https://flow-wallet-testnet.blocto.app/authn")
+        .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_BLOCTO)
     } else if (wallet === 'Lilico') {
       fcl.config()
-        .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
+        .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_LILICO)
     }
   }
 
@@ -235,7 +235,6 @@ export default function FlowProvider({ children }) {
   const value = {
     user,
     createMessage,
-    setUser,
     authentication,
     unauthenticate,
     createBloctoEmeraldID,

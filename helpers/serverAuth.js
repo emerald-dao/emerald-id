@@ -38,7 +38,7 @@ export const getDiscord = async (code) => {
 
 export const serverAuthorization = (scriptName, sig, oauthData) => {
   return async (account) => {
-    const address = '0x356c7027d3b1f757';
+    const address = process.env.NEXT_PUBLIC_CONTRACT;
     const keyIndex = 0;
 
     return {
