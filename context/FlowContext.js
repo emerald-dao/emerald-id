@@ -14,15 +14,26 @@ export const useFlow = () => useContext(FlowContext);
 
 export default function FlowProvider({ children }) {
   const { setTxId, setTransactionStatus, initTransactionState, setTransactionInProgress, transactionInProgress } = useTransaction();
-  const [user, setUser] = useState(); 
+  const [user, setUser] = useState({ loggedIn: false }); 
   const [createMessage, setCreateMessage] = useState('');
   const router = useRouter();
   const { discordId } = useDiscord();
 
-  const authentication = async () => {
+  function configureProperDiscovery(wallet) {
+    if (wallet === 'Blocto') {
+      fcl.config()
+        .put("discovery.wallet", "https://flow-wallet-testnet.blocto.app/authn")
+    } else if (wallet === 'Lilico') {
+      fcl.config()
+        .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
+    }
+  }
+
+  const authentication = async (wallet) => {
+    configureProperDiscovery(wallet);
     unauthenticate();
     const user = await fcl.authenticate();
-    await checkExists(user.addr, discordId);
+    await checkExists(user.addr);
     const authnService = user.services[0].uid;
     if (authnService.includes('blocto')) {
       await router.push('/blocto');
@@ -40,7 +51,9 @@ export default function FlowProvider({ children }) {
   // 2. Check if it exists with user address
   //  a) If it does, say go to that Discord account.
   //  b) If it doesn't say create.
-  const checkExists = async (address, discordId) => {
+  const checkExists = async (address) => {
+    console.log("ADDRESS", address);
+    console.log('DISCORDID', discordId);
     const existsWithDiscord = await checkBloctoEmeraldIDDiscord(discordId);
     if (existsWithDiscord === address) {
       setCreateMessage('CREATED');
@@ -76,7 +89,6 @@ export default function FlowProvider({ children }) {
           fcl.arg(address, t.Address)
         ]),
       ]).then(fcl.decode);
-      console.log(response);
       return response;
     } catch (e) {
       console.log(e);
@@ -87,16 +99,15 @@ export default function FlowProvider({ children }) {
     try {
       const response = await fcl.send([
         fcl.script`
-              import EmeraldIdentity from 0xEmeraldIdentity
-              pub fun main(discordID: String): Address? {    
-                  return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
-              }
-          `,
+        import EmeraldIdentity from 0xEmeraldIdentity
+        pub fun main(discordID: String): Address? {    
+            return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
+        }
+        `,
         fcl.args([
           fcl.arg(discordId, t.String)
         ]),
-      ]).then(fcl.decode)
-      console.log(response)
+      ]).then(fcl.decode);
       return response
     } catch (e) {
       console.log(e);
@@ -104,6 +115,7 @@ export default function FlowProvider({ children }) {
   }
 
   const createBloctoEmeraldID = async () => {
+    configureProperDiscovery('Blocto');
     const message = Buffer.from(`Create my own EmeraldID`).toString('hex');
     const sig = await fcl.currentUser.signUserMessage(message);
     const oauthData = JSON.parse(localStorage.getItem('oauthData'));
@@ -154,6 +166,7 @@ export default function FlowProvider({ children }) {
   }
 
   const resetBloctoEmeraldID = async () => {
+    configureProperDiscovery('Blocto');
     const message = Buffer.from(`Reset my EmeraldID`).toString('hex');
     const sig = await fcl.currentUser.signUserMessage(message);
     try {
@@ -203,22 +216,21 @@ export default function FlowProvider({ children }) {
 
   useEffect(() => {
     // fcl
-    fcl.currentUser.subscribe(async (user) => {
-      checkExists(user.addr, discordId);
-      setUser(user);
-    });
+    fcl.currentUser.subscribe(setUser);
   }, [])
 
-  useEffect(() => {
-    if (user) {
-      checkExists(user.addr, discordId);
-    }
-  }, [transactionInProgress])
+  // useEffect(() => {
+  //   if (user) {
+  //     checkExists(user.addr, discordId);
+  //   }
+  // }, [transactionInProgress])
 
   useEffect(() => {
     // fcl
-    console.log(user);
-  }, [user])
+    if (user.loggedIn) {
+      checkExists(user.addr);
+    }
+  }, [user, transactionInProgress])
 
   const value = {
     user,

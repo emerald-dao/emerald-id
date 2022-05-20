@@ -12,8 +12,8 @@ function Supported({ imgSrc, wallet, description, color, released }) {
         <h3>{wallet}</h3>
         <p>{description}</p>
         {released
-          ? <button style={{ backgroundImage: color }} onClick={authentication}>Connect {wallet}</button>
-          : <button style={{ backgroundImage: color, opacity: .3, cursor: 'default' }} >Coming soon...</button>
+          ? <button style={{ backgroundImage: color }} onClick={() => authentication(wallet)}>Connect {wallet}</button>
+          : <button style={{ backgroundImage: color, opacity: .3, cursor: 'default' }}>Coming soon...</button>
         }
 
       </div>
