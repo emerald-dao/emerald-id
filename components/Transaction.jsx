@@ -21,7 +21,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
@@ -42,7 +42,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
@@ -65,7 +65,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
@@ -88,7 +88,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
@@ -111,7 +111,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
@@ -130,7 +130,7 @@ function Transaction() {
     return (
       <div>
         <span className={styles.txId}>
-          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank">
+          <a href={`https://testnet.flowscan.org/transaction/${txId}`} target="_blank" rel="noreferrer">
             {txId?.slice(0, 8)}
           </a>
         </span>
