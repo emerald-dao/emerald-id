@@ -1,0 +1,31 @@
+.app {
+  main {
+    width: 100%;
+    height: 100vh;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    h1 {
+      font-size: 90px;
+      color: #37dabc;
+    }
+
+    p {
+      font-size: 20px;
+    }
+
+    @media all and (max-width: 700px) {
+      h1 {
+        font-size: 50px;
+      }
+      
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+}

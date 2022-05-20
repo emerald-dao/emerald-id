@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 export default async function handler(req, res) {
   const { code } = req.query;
   if (code) {
@@ -11,7 +9,7 @@ export default async function handler(req, res) {
           client_secret: process.env.DISCORD_CLIENT_SECRET,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: `https://id.ecdao.org/`,
+          redirect_uri: `http://localhost:3000/`,
           scope: 'identify',
         }),
         headers: {
@@ -25,7 +23,6 @@ export default async function handler(req, res) {
           authorization: `${oauthData.token_type} ${oauthData.access_token}`,
         },
       });
-      console.log("OAUTHDATA", oauthData);
       let info = await userResult.json();
       res.json({ info, oauthData });
     } catch (error) {

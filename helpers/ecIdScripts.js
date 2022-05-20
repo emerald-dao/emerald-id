@@ -1,7 +1,7 @@
 const fcl = require("@onflow/fcl");
 const t = require("@onflow/types");
 
-const initializeEmeraldIDCode = () => {
+const createEmeraldID = () => {
     return `
     import EmeraldIdentity from 0xEmeraldIdentity
 
@@ -39,7 +39,7 @@ const resetEmeraldIDByDiscordIDCode = () => {
     `;
 }
 
-const resetEmeraldIDByAccountCode = () => {
+const resetEmeraldID = () => {
     return `
         import EmeraldIdentity from 0xEmeraldIdentity
 
@@ -59,7 +59,6 @@ const resetEmeraldIDByAccountCode = () => {
 }
 
 export const trxScripts = {
-    initializeEmeraldID: initializeEmeraldIDCode,
-    resetEmeraldIDByDiscordID: resetEmeraldIDByDiscordIDCode,
-    resetEmeraldIDByAccount: resetEmeraldIDByAccountCode
+    createEmeraldID,
+    resetEmeraldID
 }
