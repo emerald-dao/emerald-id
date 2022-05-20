@@ -9,7 +9,7 @@ function Owned() {
   return (
     <div className={styles.owned}>
       <h2>Congratulations!</h2>
-      <p>You have already created your EmeraldID. If you wish to reset, please click the button below.</p>
+      <p>You can leave this page now, you have already created your EmeraldID. If you wish to reset, please click the button below.</p>
       {transactionInProgress
         ? <button style={{ backgroundColor: '#fd5c63', opacity: .3 }}>Resetting...</button>
         :
