@@ -6,7 +6,7 @@ import { useDiscord } from "../context/DiscordContext";
 import { useFlow } from "../context/FlowContext";
 import styles from "../styles/Wallet.module.scss";
 
-function Wallet() {
+function Blocto() {
   const { createMessage } = useFlow();
   const { discordId } = useDiscord();
   return (
@@ -33,4 +33,4 @@ function Wallet() {
   )
 }
 
-export default Wallet;
+export default Blocto;

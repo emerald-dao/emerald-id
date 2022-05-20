@@ -23,7 +23,6 @@ export default async function handler(req, res) {
           authorization: `${oauthData.token_type} ${oauthData.access_token}`,
         },
       });
-      console.log("OAUTHDATA", oauthData);
       let info = await userResult.json();
       res.json({ info, oauthData });
     } catch (error) {

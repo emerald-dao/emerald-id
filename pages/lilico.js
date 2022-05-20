@@ -1,5 +1,5 @@
 
-function Wallet() {
+function Lilico() {
   return (
     <div>
       <h1><span>EmeraldID</span> {'<>'} <span style={{color: '#fff'}}>{wallet}</span></h1>
@@ -8,4 +8,4 @@ function Wallet() {
   )
 }
 
-export default Wallet;
+export default Lilico;
