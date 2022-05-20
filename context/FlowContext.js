@@ -41,7 +41,6 @@ export default function FlowProvider({ children }) {
   //  a) If it does, say go to that Discord account.
   //  b) If it doesn't say create.
   const checkExists = async (address, discordId) => {
-    console.log(address)
     const existsWithDiscord = await checkBloctoEmeraldIDDiscord(discordId);
     if (existsWithDiscord === address) {
       setCreateMessage('CREATED');
@@ -204,12 +203,16 @@ export default function FlowProvider({ children }) {
 
   useEffect(() => {
     // fcl
-    fcl.currentUser.subscribe(setUser);
-    checkExists();
+    fcl.currentUser.subscribe(async (user) => {
+      checkExists(user.addr, discordId);
+      setUser(user);
+    });
   }, [])
 
   useEffect(() => {
-    checkExists();
+    if (user) {
+      checkExists(user.addr, discordId);
+    }
   }, [transactionInProgress])
 
   useEffect(() => {
