@@ -1,9 +1,7 @@
 import styles from "../../styles/Wallets.module.scss";
 import { useFlow } from "../../context/FlowContext";
-import { useRouter } from "next/router";
 
 function Supported({ imgSrc, wallet, description, color, released }) {
-  const router = useRouter();
   const { authentication } = useFlow();
   return (
     <div className={styles.supported}>
