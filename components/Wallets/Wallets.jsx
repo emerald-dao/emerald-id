@@ -20,7 +20,14 @@ function Wallets() {
           wallet={'Lilico'}
           description={'The first wallet extension on Flow.'}
           color={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'}
-          released={false}
+          released={true}
+        />
+        <Supported
+          imgSrc={"/img/dapper-logo.png"}
+          wallet={'Dapper'}
+          description={'The trusted gateway to your digital world.'}
+          color={'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)'}
+          released={true}
         />
       </div>
     </div>

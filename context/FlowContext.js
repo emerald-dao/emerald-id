@@ -7,6 +7,7 @@ import "../flow/config";
 import { useRouter } from 'next/router';
 import { useDiscord } from './DiscordContext.js';
 import { useTransaction } from './TransactionContext.js';
+import { scripts, trxScripts } from '../helpers/ecIdScripts.js';
 
 export const FlowContext = createContext({});
 
@@ -26,21 +27,41 @@ export default function FlowProvider({ children }) {
     } else if (wallet === 'Lilico') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_LILICO)
+    } else if (wallet === 'Dapper') {
+      fcl.config()
+        .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_DAPPER)
+        .put("discovery.wallet.method", "POP/RPC")
     }
   }
 
-  const authentication = async (wallet) => {
-    configureProperDiscovery(wallet);
+  const authentication = async (walletButton) => {
+    configureProperDiscovery(walletButton);
     unauthenticate();
     const user = await fcl.authenticate();
+    const selectedWallet = setSelectedWallet(user);
     await checkExists(user.addr);
-    const authnService = user.services[0].uid;
-    if (authnService.includes('blocto')) {
+    if (selectedWallet === 'Blocto') {
       await router.push('/blocto');
-    } else if (authnService.includes('lilico')) {
+    } else if (selectedWallet === 'Lilico') {
       await router.push('/lilico');
+    } else if (selectedWallet === 'Dapper') {
+      await router.push('/dapper');
     } else {
       unauthenticate();
+    }
+  }
+
+  function setSelectedWallet(user) {
+    const authnService = user.services[0].uid;
+    if (authnService.includes('blocto')) {
+      localStorage.setItem('selectedWallet', 'Blocto');
+      return 'Blocto';
+    } else if (authnService.includes('lilico')) {
+      localStorage.setItem('selectedWallet', 'Lilico');
+      return 'Lilico';
+    } else if (authnService.includes('dapper')) {
+      localStorage.setItem('selectedWallet', 'Dapper');
+      return 'Dapper';
     }
   }
 
@@ -54,7 +75,7 @@ export default function FlowProvider({ children }) {
   const checkExists = async (address) => {
     console.log("ADDRESS", address);
     console.log('DISCORDID', discordId);
-    const existsWithDiscord = await checkBloctoEmeraldIDDiscord(discordId);
+    const existsWithDiscord = await checkEmeraldIDDiscord(discordId);
     if (existsWithDiscord === address) {
       setCreateMessage('CREATED');
     } else if (existsWithDiscord) {
@@ -62,7 +83,7 @@ export default function FlowProvider({ children }) {
       setCreateMessage(existsWithDiscord);
     } else {
       // The Discord does not exist in a mapping.
-      const existsWithAccount = await checkBloctoEmeraldIDAccount(address);
+      const existsWithAccount = await checkEmeraldIDAccount(address);
       if (existsWithAccount) {
         // Returns DiscordId
         setCreateMessage(existsWithAccount);
@@ -76,15 +97,12 @@ export default function FlowProvider({ children }) {
     fcl.unauthenticate();
   }
 
-  const checkBloctoEmeraldIDAccount = async (address) => {
+  const checkEmeraldIDAccount = async (address) => {
+    const wallet = localStorage.getItem('selectedWallet');
+    const script = scripts['checkEmeraldIDAccount'](wallet);
     try {
       const response = await fcl.send([
-        fcl.script`
-        import EmeraldIdentity from 0xEmeraldIdentity
-        pub fun main(account: Address): String? {    
-            return EmeraldIdentity.getDiscordFromAccount(account: account)
-        }
-        `,
+        fcl.script(script),
         fcl.args([
           fcl.arg(address, t.Address)
         ]),
@@ -95,15 +113,12 @@ export default function FlowProvider({ children }) {
     }
   }
 
-  const checkBloctoEmeraldIDDiscord = async (discordId) => {
+  const checkEmeraldIDDiscord = async (discordId) => {
+    const wallet = localStorage.getItem('selectedWallet');
+    const script = scripts['checkEmeraldIDDiscord'](wallet);
     try {
       const response = await fcl.send([
-        fcl.script`
-        import EmeraldIdentity from 0xEmeraldIdentity
-        pub fun main(discordID: String): Address? {    
-            return EmeraldIdentity.getAccountFromDiscord(discordID: discordID)
-        }
-        `,
+        fcl.script(script),
         fcl.args([
           fcl.arg(discordId, t.String)
         ]),
@@ -114,40 +129,24 @@ export default function FlowProvider({ children }) {
     }
   }
 
-  const createBloctoEmeraldID = async () => {
-    configureProperDiscovery('Blocto');
-    const message = Buffer.from(`Create my own EmeraldID`).toString('hex');
-    const sig = await fcl.currentUser.signUserMessage(message);
+  const createEmeraldID = async () => {
+    const wallet = localStorage.getItem('selectedWallet');
+    configureProperDiscovery(wallet);
     const oauthData = JSON.parse(localStorage.getItem('oauthData'));
     try {
       initTransactionState();
       const scriptName = 'createEmeraldID';
-      const serverSigner = serverAuthorization(scriptName, sig, oauthData);
+      const txCode = trxScripts[scriptName](wallet);
+      const serverSigner = serverAuthorization(scriptName, wallet, oauthData);
 
       const transactionId = await fcl.send([
-        fcl.transaction`
-        import EmeraldIdentity from 0xEmeraldIdentity
-
-        // Signed by Administrator
-        transaction(account: Address, discordID: String) {
-            prepare(admin: AuthAccount) {
-                let administrator = admin.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)
-                                            ?? panic("Could not borrow the administrator")
-                administrator.createEmeraldID(account: account, discordID: discordID)
-            }
-
-            execute {
-                log("Created EmeraldID")
-            }
-        }
-        `,
+        fcl.transaction(txCode),
         fcl.args([
-          fcl.arg(user.addr, t.Address),
           fcl.arg(discordId, t.String)
         ]),
         fcl.proposer(fcl.authz),
         fcl.payer(fcl.authz),
-        fcl.authorizations([serverSigner]),
+        fcl.authorizations([serverSigner, fcl.authz]),
         fcl.limit(100)
       ]).then(fcl.decode);
       setTxId(transactionId);
@@ -165,38 +164,21 @@ export default function FlowProvider({ children }) {
     }
   }
 
-  const resetBloctoEmeraldID = async () => {
-    configureProperDiscovery('Blocto');
-    const message = Buffer.from(`Reset my EmeraldID`).toString('hex');
-    const sig = await fcl.currentUser.signUserMessage(message);
+  const resetEmeraldID = async () => {
+    const wallet = localStorage.getItem('selectedWallet');
+    configureProperDiscovery(wallet);
     try {
       initTransactionState();
       const scriptName = `resetEmeraldID`;
-      const serverSigner = serverAuthorization(scriptName, sig);
+      const txCode = trxScripts[scriptName](wallet);
+      const serverSigner = serverAuthorization(scriptName, wallet);
 
       const transactionId = await fcl.send([
-        fcl.transaction`
-        import EmeraldIdentity from 0xEmeraldIdentity
-
-        // Signed by Administrator
-        transaction(account: Address) {
-            prepare(signer: AuthAccount) {
-                let administrator = signer.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)
-                                            ?? panic("Could not borrow the administrator")
-                administrator.removeByAccount(account: account)
-            }
-
-            execute {
-                log("Removed EmeraldID")
-            }
-        }
-        `,
-        fcl.args([
-          fcl.arg(user.addr, t.Address)
-        ]),
+        fcl.transaction(txCode),
+        fcl.args([]),
         fcl.proposer(fcl.authz),
         fcl.payer(fcl.authz),
-        fcl.authorizations([serverSigner]),
+        fcl.authorizations([serverSigner, fcl.authz]),
         fcl.limit(100)
       ]).then(fcl.decode);
       setTxId(transactionId);
@@ -217,6 +199,14 @@ export default function FlowProvider({ children }) {
   useEffect(() => {
     // fcl
     fcl.currentUser.subscribe(setUser);
+
+    // Makes sure the user can't navigate between pages directly
+    // and link their wrong id
+    const pathname = router.pathname;
+    const currentWallet = pathname === '/blocto' ? 'Blocto' : '/lilico' ? 'Lilico' : '/dapper' ? 'Dapper' : null;
+    if (currentWallet !== localStorage.getItem('selectedWallet')) {
+      unauthenticate();
+    }
   }, [])
 
   // useEffect(() => {
@@ -237,8 +227,8 @@ export default function FlowProvider({ children }) {
     createMessage,
     authentication,
     unauthenticate,
-    createBloctoEmeraldID,
-    resetBloctoEmeraldID
+    createEmeraldID,
+    resetEmeraldID,
   }
 
   return <FlowContext.Provider value={value}>{children}</FlowContext.Provider>

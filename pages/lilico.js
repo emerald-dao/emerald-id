@@ -16,6 +16,18 @@ function Lilico() {
         <p>Begin verifying all of your Lilico assets.</p>
       </div>
       <div className={styles.section}>
+        {!discordId
+          ? <NotLoggedIn which={'discord'} />
+          : createMessage === 'CREATED'
+            ? <Owned />
+            : createMessage === 'NONE'
+              ? <Create borderColor={'#365bea'} buttonColor={'linear-gradient(135deg,#72e9f3 -20%,#404de6 120%)'} />
+              : createMessage.substring(0, 2) === '0x'
+                ? <Differing current={'discord'} differing={createMessage} />
+                : createMessage
+                  ? <Differing current={'account'} differing={createMessage} />
+                  : <NotLoggedIn which={'account'} />
+        }
       </div>
     </>
   )
