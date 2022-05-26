@@ -9,7 +9,7 @@ export default async function handler(req, res) {
           client_secret: process.env.DISCORD_CLIENT_SECRET,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: `http://localhost:3000/`,
+          redirect_uri: `https://id.ecdao.org/`,
           scope: 'identify',
         }),
         headers: {
