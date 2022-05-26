@@ -24,10 +24,12 @@ export default function FlowProvider({ children }) {
     if (wallet === 'Blocto') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_BLOCTO)
-    } else if (wallet === 'Lilico') {
+        .put("discovery.wallet.method", "IFRAME/RPC")
+      } else if (wallet === 'Lilico') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_LILICO)
-    } else if (wallet === 'Dapper') {
+        .put("discovery.wallet.method", "IFRAME/RPC")
+      } else if (wallet === 'Dapper') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_DAPPER)
         .put("discovery.wallet.method", "POP/RPC")
