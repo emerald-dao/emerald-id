@@ -16,6 +16,18 @@ function Dapper() {
         <p>Begin verifying all of your Dapper assets.</p>
       </div>
       <div className={styles.section}>
+        {!discordId
+          ? <NotLoggedIn which={'discord'} />
+          : createMessage === 'CREATED'
+            ? <Owned />
+            : createMessage === 'NONE'
+              ? <Create borderColor={'#762fbe'} buttonColor={'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)'} />
+              : createMessage.substring(0, 2) === '0x'
+                ? <Differing current={'discord'} differing={createMessage} />
+                : createMessage
+                  ? <Differing current={'account'} differing={createMessage} />
+                  : <NotLoggedIn which={'account'} />
+        }
       </div>
     </>
   )

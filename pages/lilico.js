@@ -11,12 +11,24 @@ function Lilico() {
   const { discordId } = useDiscord();
   return (
     <>
-      <div className={styles.wallet}>
+      {/* <div className={styles.wallet}>
         <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="lilico-color">Lilico</span></h1>
         <p>Begin verifying all of your Lilico assets.</p>
       </div>
       <div className={styles.section}>
-      </div>
+        {!discordId
+          ? <NotLoggedIn which={'discord'} />
+          : createMessage === 'CREATED'
+            ? <Owned />
+            : createMessage === 'NONE'
+              ? <Create borderColor={'#fc814a'} buttonColor={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'} />
+              : createMessage.substring(0, 2) === '0x'
+                ? <Differing current={'discord'} differing={createMessage} />
+                : createMessage
+                  ? <Differing current={'account'} differing={createMessage} />
+                  : <NotLoggedIn which={'account'} />
+        }
+      </div> */}
     </>
   )
 }

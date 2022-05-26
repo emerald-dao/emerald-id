@@ -24,38 +24,16 @@ const hash = (message) => {
 }
 
 export default async function handler(req, res) {
-  const { sig, signable, scriptName, oauthData } = req.body;
+  const { scriptName, wallet, oauthData, signable } = req.body;
 
-  const scriptCode = trxScripts[scriptName]().replace('0xEmeraldIdentity', process.env.NEXT_PUBLIC_CONTRACT);
+  const scriptCode = trxScripts[scriptName](wallet);
 
-  const address = sig[0].addr;
-
-  // Verify user signature //
-  const signedMessage = scriptName === 'createEmeraldID' 
-    ? Buffer.from(`Create my own EmeraldID`).toString('hex')
-    : scriptName === 'resetEmeraldID' 
-    ? Buffer.from(`Reset my EmeraldID`).toString('hex')
-    : null;
-  const isValid = await fcl.AppUtils.verifyUserSignatures(
-    signedMessage,
-    sig,
-    { fclCryptoContract: null }
-  );
-  if (!isValid) {
-    return res.status(500).json({ mesage: 'User data validate failed' });
-  }
-
-  // User is now validated //
   const { message } = signable;
   const decoded = decode(Buffer.from(message.slice(64), 'hex'));
   const cadence = decoded[0].toString();
 
-  const userTxArg = JSON.parse(decoded[1][0].toString()).value;
-
   if (scriptCode.replace(/\s/g, "") !== cadence.replace(/\s/g, "")) {
     return res.status(500).json({ message: 'Script code not supported' })
-  } else if (address !== userTxArg) {
-    return res.status(500).json({ message: 'Incorrect user argument' })
   }
 
   // If this is initialization, we need to check the discordID passed in.
@@ -67,7 +45,7 @@ export default async function handler(req, res) {
       },
     });
     const info = await userResult.json();
-    const discordIDTxArg = JSON.parse(decoded[1][1].toString()).value;
+    const discordIDTxArg = JSON.parse(decoded[1][0].toString()).value;
     if (info.id !== discordIDTxArg) {
       return res.status(500).json({ message: 'Incorrect discordID' })
     }

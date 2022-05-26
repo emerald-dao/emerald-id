@@ -17,7 +17,7 @@ function Blocto() {
       </div>
       <div className={styles.section}>
         {!discordId
-          ? <NotLoggedIn />
+          ? <NotLoggedIn which={'discord'} />
           : createMessage === 'CREATED'
             ? <Owned />
             : createMessage === 'NONE'
@@ -26,7 +26,7 @@ function Blocto() {
                 ? <Differing current={'discord'} differing={createMessage} />
                 : createMessage
                   ? <Differing current={'account'} differing={createMessage} />
-                  : null
+                  : <NotLoggedIn which={'account'} />
         }
       </div>
     </>

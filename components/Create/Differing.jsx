@@ -1,8 +1,10 @@
 import styles from "../../styles/Create.module.scss";
 import { useFlow } from "../../context/FlowContext";
+import { useTransaction } from "../../context/TransactionContext";
 
 function Differing({ current, differing }) {
-  const { resetBloctoEmeraldID } = useFlow();
+  const { resetEmeraldID } = useFlow();
+  const { transactionInProgress } = useTransaction();
 
   if (current === 'discord') {
     return (
@@ -18,7 +20,10 @@ function Differing({ current, differing }) {
         <h2>Oops!</h2>
         <p>Your Blocto account is currently mapped to a different Discord account.</p>
         <p>To fix this issue, please reset your EmeraldID below, and try again after.</p>
-        <button style={{backgroundColor: '#fd5c63'}} onClick={resetBloctoEmeraldID}>Reset</button>
+        {transactionInProgress
+          ? <button style={{ backgroundColor: '#fd5c63', opacity: .3 }}>Resetting...</button>
+          : <button style={{ backgroundColor: '#fd5c63' }} onClick={resetEmeraldID}>Reset</button>
+        }
       </div>
     )
   }
