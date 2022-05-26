@@ -203,7 +203,7 @@ export default function FlowProvider({ children }) {
     // Makes sure the user can't navigate between pages directly
     // and link their wrong id
     const pathname = router.pathname;
-    const currentWallet = pathname === '/blocto' ? 'Blocto' : '/lilico' ? 'Lilico' : '/dapper' ? 'Dapper' : null;
+    const currentWallet = pathname === '/blocto' ? 'Blocto' : pathname === '/lilico' ? 'Lilico' : pathname === '/dapper' ? 'Dapper' : null;
     if (currentWallet !== localStorage.getItem('selectedWallet')) {
       unauthenticate();
     }

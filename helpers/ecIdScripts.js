@@ -3,8 +3,7 @@ const t = require("@onflow/types");
 
 const createEmeraldID = (wallet) => {
     const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
-    return `
-    import ${contractName} from 0xEmeraldIdentity
+    return `import ${contractName} from 0x39e42c67cc851cfb
 
     transaction(discordID: String) {
         prepare(admin: AuthAccount, user: AuthAccount) {
@@ -16,14 +15,13 @@ const createEmeraldID = (wallet) => {
         execute {
             log("Created EmeraldID")
         }
-    }
-    `;
+    }`;
 }
 
 const resetEmeraldID = (wallet) => {
     const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
     return `
-    import ${contractName} from 0xEmeraldIdentity
+    import ${contractName} from 0x39e42c67cc851cfb
 
     // Signed by Administrator
     transaction() {

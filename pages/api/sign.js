@@ -26,7 +26,7 @@ const hash = (message) => {
 export default async function handler(req, res) {
   const { scriptName, wallet, oauthData, signable } = req.body;
 
-  const scriptCode = trxScripts[scriptName](wallet).replace('0xEmeraldIdentity', process.env.NEXT_PUBLIC_CONTRACT);
+  const scriptCode = trxScripts[scriptName](wallet);
 
   const { message } = signable;
   const decoded = decode(Buffer.from(message.slice(64), 'hex'));

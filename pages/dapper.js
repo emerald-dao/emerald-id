@@ -21,7 +21,7 @@ function Dapper() {
           : createMessage === 'CREATED'
             ? <Owned />
             : createMessage === 'NONE'
-              ? <Create borderColor={'#365bea'} buttonColor={'linear-gradient(135deg,#72e9f3 -20%,#404de6 120%)'} />
+              ? <Create borderColor={'#762fbe'} buttonColor={'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)'} />
               : createMessage.substring(0, 2) === '0x'
                 ? <Differing current={'discord'} differing={createMessage} />
                 : createMessage

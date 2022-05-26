@@ -21,7 +21,7 @@ function Lilico() {
           : createMessage === 'CREATED'
             ? <Owned />
             : createMessage === 'NONE'
-              ? <Create borderColor={'#365bea'} buttonColor={'linear-gradient(135deg,#72e9f3 -20%,#404de6 120%)'} />
+              ? <Create borderColor={'#fc814a'} buttonColor={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'} />
               : createMessage.substring(0, 2) === '0x'
                 ? <Differing current={'discord'} differing={createMessage} />
                 : createMessage

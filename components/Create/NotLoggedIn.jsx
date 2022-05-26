@@ -17,7 +17,7 @@ function NotLoggedIn({ which }) {
     return (
       <div className={styles.logged}>
         <h2>Please log in</h2>
-        <button style={{color: 'black', marginTop: '20px'}} onClick={() => authentication(router.pathname === '/blocto' ? 'Blocto' : router.pathname === '/lilico' ? 'Lilico' : null)}>Log in</button>
+        <button style={{color: 'black', marginTop: '20px'}} onClick={() => authentication(router.pathname === '/blocto' ? 'Blocto' : router.pathname === '/lilico' ? 'Lilico' : router.pathname === '/dapper' ? 'Dapper': null)}>Log in</button>
       </div>
     )
   }
