@@ -11,7 +11,7 @@ function Lilico() {
   const { discordId } = useDiscord();
   return (
     <>
-      <div className={styles.wallet}>
+      {/* <div className={styles.wallet}>
         <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="lilico-color">Lilico</span></h1>
         <p>Begin verifying all of your Lilico assets.</p>
       </div>
@@ -28,7 +28,7 @@ function Lilico() {
                   ? <Differing current={'account'} differing={createMessage} />
                   : <NotLoggedIn which={'account'} />
         }
-      </div>
+      </div> */}
     </>
   )
 }

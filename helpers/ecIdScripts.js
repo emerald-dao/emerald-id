@@ -20,8 +20,7 @@ const createEmeraldID = (wallet) => {
 
 const resetEmeraldID = (wallet) => {
     const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
-    return `
-    import ${contractName} from 0x39e42c67cc851cfb
+    return `import ${contractName} from 0x39e42c67cc851cfb
 
     // Signed by Administrator
     transaction() {
@@ -34,8 +33,7 @@ const resetEmeraldID = (wallet) => {
         execute {
             log("Removed EmeraldID")
         }
-    }
-    `;
+    }`;
 }
 
 const checkEmeraldIDAccount = (wallet) => {
