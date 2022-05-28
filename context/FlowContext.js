@@ -115,7 +115,7 @@ export default function FlowProvider({ children }) {
     }
   }
 
-  const checkAnyWallet = async (wallet) => {
+  const checkAnyWallet = async (discordId, wallet) => {
     const script = scripts['checkEmeraldIDDiscord'](wallet);
     try {
       const response = await fcl.send([

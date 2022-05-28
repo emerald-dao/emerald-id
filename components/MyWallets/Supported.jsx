@@ -6,15 +6,16 @@ import { useDiscord } from "../../context/DiscordContext";
 
 function Supported({ imgSrc, wallet, color, buttonColor }) {
   const { checkAnyWallet } = useFlow();
-  const { discordUsername } = useDiscord();
+  const { discordId } = useDiscord();
   const [created, setCreated] = useState();
 
   useEffect(() => {
+    console.log(discordId)
     checkWallet();
-  }, [discordUsername])
+  }, [discordId])
 
   async function checkWallet() {
-    const created = await checkAnyWallet(wallet);
+    const created = await checkAnyWallet(discordId, wallet);
     setCreated(created);
   }
 
