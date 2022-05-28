@@ -12,9 +12,11 @@ function Owned() {
       <p>You can leave this page now, you have already created your EmeraldID. If you wish to reset, please click the button below.</p>
       {transactionInProgress
         ? <button style={{ backgroundColor: '#fd5c63', opacity: .3 }}>Resetting...</button>
-        : 
+        :
         <div className={styles.ownedButtons}>
-          <a style={{ backgroundColor: '#37dabc' }} href="/me">View my IDs</a>
+          <Link href="/me">
+            <a style={{ backgroundColor: '#37dabc' }}>View my IDs</a>
+          </Link>
           <button style={{ backgroundColor: 'transparent', border: '1px solid #fd5c63', color: '#fd5c63' }} onClick={resetEmeraldID}>Reset</button>
         </div>
       }
