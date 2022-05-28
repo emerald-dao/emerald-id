@@ -8,6 +8,26 @@
   border: 2px solid #37dabc;
   border-radius: 10px;
   padding: 30px;
+
+  .ownedButtons {
+    position: relative;
+
+    a {
+      margin-right: 10px;
+      text-align: center;
+    }
+    
+    @media all and (max-width: 700px) {
+      a {
+        margin: 0px;
+        min-width: none;
+        margin-bottom: 10px;
+      }
+
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 .differing {

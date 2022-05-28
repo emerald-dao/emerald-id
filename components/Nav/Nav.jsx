@@ -9,11 +9,12 @@ import Link from "next/link";
 function Nav() {
   const router = useRouter();
   const { code } = router.query;
-  const { checkUpdates } = useDiscord();
+  const { discordUsername, checkUpdates } = useDiscord();
 
   useEffect(() => {
-    if (code) {
+    if (code && !discordUsername) {
       checkDiscordName(code);
+      console.log("Checking")
     }
   }, [code]);
 

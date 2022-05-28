@@ -12,6 +12,7 @@ export default function DiscordProvider({ children }) {
   
   function checkUpdates() {
     const discordInfo = JSON.parse(localStorage.getItem('discordInfo'));
+    console.log(discordInfo)
     setDiscordUsername(discordInfo?.username);
     setDiscordId(discordInfo?.id);
   }
@@ -24,6 +25,7 @@ export default function DiscordProvider({ children }) {
 
   useEffect(() => {
     checkUpdates();
+    console.log("Hello")
   }, [])
 
   const value = {

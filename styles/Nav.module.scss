@@ -42,10 +42,6 @@
     letter-spacing: 1.5px;
   }
 
-  .logout:hover span {
-    display: none;
-  }
-
   .logout:hover {
     animation: cover 1s forwards;
   }
@@ -55,10 +51,6 @@
       background: white;
       color: black;
     }
-  }
-
-  .logout:hover:before {
-    content: 'Logout';
   }
 
   @media all and (max-width: 700px) {

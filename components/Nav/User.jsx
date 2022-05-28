@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import { useDiscord } from "../../context/DiscordContext";
 import styles from "../../styles/Nav.module.scss";
 
@@ -11,9 +12,11 @@ function User() {
     )
   } else {
     return (
-      <button className={`${styles.authentication} ${styles.logout}`} onClick={logout}>
-        <span>{discordUsername.length > 10 ? discordUsername.slice(0, 9) + '...' : discordUsername}</span>
-      </button>
+      <Link href="/me">
+        <a className={`${styles.authentication} ${styles.logout}`}>
+          <span>{discordUsername.length > 10 ? discordUsername.slice(0, 9) + '...' : discordUsername}</span>
+        </a>
+      </Link>
     )
   }
 

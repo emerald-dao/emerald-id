@@ -115,6 +115,21 @@ export default function FlowProvider({ children }) {
     }
   }
 
+  const checkAnyWallet = async (wallet) => {
+    const script = scripts['checkEmeraldIDDiscord'](wallet);
+    try {
+      const response = await fcl.send([
+        fcl.script(script),
+        fcl.args([
+          fcl.arg(discordId, t.String)
+        ]),
+      ]).then(fcl.decode);
+      return response
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const checkEmeraldIDDiscord = async (discordId) => {
     const wallet = localStorage.getItem('selectedWallet');
     const script = scripts['checkEmeraldIDDiscord'](wallet);
@@ -231,6 +246,7 @@ export default function FlowProvider({ children }) {
     unauthenticate,
     createEmeraldID,
     resetEmeraldID,
+    checkAnyWallet
   }
 
   return <FlowContext.Provider value={value}>{children}</FlowContext.Provider>

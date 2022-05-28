@@ -34,7 +34,7 @@
   min-height: 40vh;
   transform: translateX(-50%);
 
-  button {
+  button, a {
     cursor: pointer;
     min-width: 220px;
     padding: 16px 32px;
@@ -45,6 +45,8 @@
     bottom: 30px;
     color: white;
     font-weight: bold;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   @media all and (max-width: 700px) {
