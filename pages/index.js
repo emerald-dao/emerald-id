@@ -22,7 +22,7 @@ function Home(props) {
           <Link href="/me">
             <a style={{ color: '#37dabc', borderColor: '#37dabc' }}>View my IDs</a>
           </Link>
-          <Link href="#wallets">
+          <Link href="/me">
             <a style={{ color: '#fff', borderColor: '#fff' }}>Create an ID</a>
           </Link>
         </div>
