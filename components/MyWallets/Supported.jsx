@@ -2,14 +2,16 @@ import styles from "../../styles/MyWallets.module.scss";
 import { useFlow } from "../../context/FlowContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useDiscord } from "../../context/DiscordContext";
 
 function Supported({ imgSrc, wallet, color, buttonColor }) {
-  const { authentication, checkAnyWallet } = useFlow();
+  const { checkAnyWallet } = useFlow();
+  const { discordUsername } = useDiscord();
   const [created, setCreated] = useState();
 
   useEffect(() => {
     checkWallet();
-  }, [])
+  }, [discordUsername])
 
   async function checkWallet() {
     const created = await checkAnyWallet(wallet);
