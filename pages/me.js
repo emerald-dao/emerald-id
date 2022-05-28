@@ -1,8 +1,4 @@
 import styles from '../styles/Me.module.scss'
-import Nav from '../components/Nav/Nav.jsx';
-import Works from '../components/Works/Works.jsx';
-import { useEffect } from 'react';
-import { useFlow } from '../context/FlowContext';
 import { useDiscord } from '../context/DiscordContext';
 import Wallets from '../components/MyWallets/Wallets';
 
