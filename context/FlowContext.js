@@ -164,7 +164,7 @@ export default function FlowProvider({ children }) {
         fcl.proposer(fcl.authz),
         fcl.payer(fcl.authz),
         fcl.authorizations([serverSigner, fcl.authz]),
-        fcl.limit(100)
+        fcl.limit(300)
       ]).then(fcl.decode);
       setTxId(transactionId);
 
@@ -196,7 +196,7 @@ export default function FlowProvider({ children }) {
         fcl.proposer(fcl.authz),
         fcl.payer(fcl.authz),
         fcl.authorizations([serverSigner, fcl.authz]),
-        fcl.limit(100)
+        fcl.limit(300)
       ]).then(fcl.decode);
       setTxId(transactionId);
 
