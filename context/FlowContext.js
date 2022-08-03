@@ -15,7 +15,7 @@ export const useFlow = () => useContext(FlowContext);
 
 export default function FlowProvider({ children }) {
   const { setTxId, setTransactionStatus, initTransactionState, setTransactionInProgress, transactionInProgress } = useTransaction();
-  const [user, setUser] = useState({ loggedIn: false }); 
+  const [user, setUser] = useState({ loggedIn: false });
   const [createMessage, setCreateMessage] = useState('');
   const router = useRouter();
   const { discordId } = useDiscord();
@@ -25,11 +25,11 @@ export default function FlowProvider({ children }) {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_BLOCTO)
         .put("discovery.wallet.method", "IFRAME/RPC")
-      } else if (wallet === 'Lilico') {
+    } else if (wallet === 'Lilico') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_LILICO)
         .put("discovery.wallet.method", "IFRAME/RPC")
-      } else if (wallet === 'Dapper') {
+    } else if (wallet === 'Dapper') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_DAPPER)
         .put("discovery.wallet.method", "POP/RPC")
@@ -97,6 +97,7 @@ export default function FlowProvider({ children }) {
 
   const unauthenticate = () => {
     fcl.unauthenticate();
+    setCreateMessage('');
   }
 
   const checkEmeraldIDAccount = async (address) => {

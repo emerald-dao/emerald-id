@@ -5,10 +5,16 @@ import NotLoggedIn from "../components/Create/NotLoggedIn";
 import { useDiscord } from "../context/DiscordContext";
 import { useFlow } from "../context/FlowContext";
 import styles from "../styles/Wallet.module.scss";
+import { useEffect } from "react";
 
 function Dapper() {
-  const { createMessage } = useFlow();
+  const { createMessage, unauthenticate } = useFlow();
   const { discordId } = useDiscord();
+
+  useEffect(() => {
+    unauthenticate();
+  }, []);
+
   return (
     <>
       <div className={styles.wallet}>
