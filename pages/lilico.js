@@ -5,13 +5,19 @@ import NotLoggedIn from "../components/Create/NotLoggedIn";
 import { useDiscord } from "../context/DiscordContext";
 import { useFlow } from "../context/FlowContext";
 import styles from "../styles/Wallet.module.scss";
+import { useEffect } from "react";
 
 function Lilico() {
-  const { createMessage } = useFlow();
+  const { createMessage, unauthenticate } = useFlow();
   const { discordId } = useDiscord();
+
+  useEffect(() => {
+    unauthenticate();
+  }, []);
+
   return (
     <>
-      {/* <div className={styles.wallet}>
+      <div className={styles.wallet}>
         <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="lilico-color">Lilico</span></h1>
         <p>Begin verifying all of your Lilico assets.</p>
       </div>
@@ -28,7 +34,7 @@ function Lilico() {
                   ? <Differing current={'account'} differing={createMessage} />
                   : <NotLoggedIn which={'account'} />
         }
-      </div> */}
+      </div>
     </>
   )
 }

@@ -27,7 +27,7 @@ function Wallets() {
           wallet={'Lilico'}
           description={'The first wallet extension on Flow.'}
           color={'lilico-color'}
-          released={false}
+          released={true}
         />
       </div>
     </div>

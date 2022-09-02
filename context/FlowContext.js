@@ -28,7 +28,7 @@ export default function FlowProvider({ children }) {
     } else if (wallet === 'Lilico') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_LILICO)
-        .put("discovery.wallet.method", "IFRAME/RPC")
+        .put("discovery.wallet.method", "EXT/RPC")
     } else if (wallet === 'Dapper') {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_DAPPER)

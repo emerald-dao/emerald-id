@@ -18,7 +18,7 @@ function Differing({ current, differing }) {
     return (
       <div className={styles.differing}>
         <h2>Oops!</h2>
-        <p>Your Blocto account is currently mapped to a different Discord account.</p>
+        <p>Your wallet is currently mapped to a different Discord account.</p>
         <p>To fix this issue, please reset your EmeraldID below, and try again after.</p>
         {transactionInProgress
           ? <button style={{ backgroundColor: '#fd5c63', opacity: .3 }}>Resetting...</button>
