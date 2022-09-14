@@ -12,6 +12,7 @@
   a {
     display: flex;
     align-items: center;
+
     h1 {
       margin-left: 5px;
       margin-top: 0px;
@@ -38,7 +39,6 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    width: 175px;
     letter-spacing: 1.5px;
   }
 
@@ -55,6 +55,7 @@
 
   @media all and (max-width: 700px) {
     padding: 10px 5px;
+
     h1 {
       font-size: 20px;
     }
