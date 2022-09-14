@@ -62,7 +62,22 @@
 
     .authentication {
       font-size: 16px;
-      width: 150px;
+    }
+  }
+
+  @media all and (max-width: 500px) {
+    img {
+      width: 25px;
+      height: 25px;
+    }
+
+    h1 {
+      font-size: 15px;
+    }
+
+    .authentication {
+      font-size: 12px;
+      padding: 7.5px;
     }
   }
 }
