@@ -11,6 +11,9 @@
 // multiple addresses to your DiscordID, and you cannot configure
 // multiple DiscordIDs to your address. 1-1.
 
+import EmeraldIdentityDapper from "./EmeraldIdentityDapper.cdc"
+import EmeraldIdentityLilico from "./EmeraldIdentityLilico.cdc"
+
 pub contract EmeraldIdentity {
 
     //
@@ -87,6 +90,20 @@ pub contract EmeraldIdentity {
         return admin.discordToAccount[discordID]
     }
 
+    pub fun getEmeraldIDs(discordID: String): {String: Address} {
+        let response: {String: Address} = {}
+        if let bloctoID = self.getAccountFromDiscord(discordID: discordID) {
+            response["blocto"] = bloctoID
+        }
+        if let dapperID = EmeraldIdentityDapper.getAccountFromDiscord(discordID: discordID) {
+            response["dapper"] = dapperID
+        }
+        if let lilicoID = EmeraldIdentityLilico.getAccountFromDiscord(discordID: discordID) {
+            response["lilico"] = lilicoID
+        }
+        return response
+    }
+
     init() {
         self.AdministratorStoragePath = /storage/EmeraldIDAdministrator
         self.AdministratorPrivatePath = /private/EmeraldIDAdministrator
@@ -95,3 +112,4 @@ pub contract EmeraldIdentity {
         self.account.link<&Administrator>(EmeraldIdentity.AdministratorPrivatePath, target: EmeraldIdentity.AdministratorStoragePath)
     }
 }
+ 
