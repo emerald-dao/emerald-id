@@ -5,7 +5,7 @@ const createEmeraldIDTxCode = "import EmeraldIdentity from 0x39e42c67cc851cfb\n\
 
 const createEmeraldID = (wallet) => {
     const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
-    return createEmeraldIDTxCode.replaceAll("EmeraldIdentity", wallet);
+    return createEmeraldIDTxCode.replaceAll("EmeraldIdentity", contractName);
 }
 
 const resetEmeraldID = (wallet) => {
