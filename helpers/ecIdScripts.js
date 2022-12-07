@@ -16,6 +16,7 @@ const createEmeraldID = (wallet) => {
                                         ?? panic("Could not borrow the administrator")
             administrator.createEmeraldID(account: user.address, discordID: discordID)
         }
+
         execute {
             log("Created EmeraldID")
         }
