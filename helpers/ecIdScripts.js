@@ -1,28 +1,25 @@
 const fcl = require("@onflow/fcl");
 const t = require("@onflow/types");
 
-const auditedDapperCode = `import EmeraldIdentityDapper from 0x39e42c67cc851cfb
-
-transaction(discordID: String) {
-    prepare(admin: AuthAccount, user: AuthAccount) {
-        let administrator = admin.borrow<&EmeraldIdentityDapper.Administrator>(from: EmeraldIdentityDapper.AdministratorStoragePath)
-                                    ?? panic("Could not borrow the administrator")
-        administrator.createEmeraldID(account: user.address, discordID: discordID)
-    }
-
-    execute {
-        log("Created EmeraldID")
-    }
-}`
-
 const createEmeraldIDTxCode = "import EmeraldIdentity from 0x39e42c67cc851cfb\n\ntransaction(discordID: String) {\n    prepare(admin: AuthAccount, user: AuthAccount) {\n        let administrator = admin.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)\n                                    ?? panic(\"Could not borrow the administrator\")\n        administrator.createEmeraldID(account: user.address, discordID: discordID)\n    }\n\n    execute {\n        log(\"Created EmeraldID\")\n    }\n}";
 
 const createEmeraldID = (wallet) => {
-    if (wallet === 'Dapper') {
-        return auditedDapperCode;
+    if (wallet !== 'Dapper') {
+        const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : null;
+        return createEmeraldIDTxCode.replaceAll("EmeraldIdentity", contractName);
     }
-    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Lilico' ? 'EmeraldIdentityLilico' : null;
-    return createEmeraldIDTxCode.replaceAll("EmeraldIdentity", contractName);
+    return `import EmeraldIdentityDapper from 0x39e42c67cc851cfb
+
+    transaction(discordID: String) {
+        prepare(admin: AuthAccount, user: AuthAccount) {
+            let administrator = admin.borrow<&EmeraldIdentityDapper.Administrator>(from: EmeraldIdentityDapper.AdministratorStoragePath)
+                                        ?? panic("Could not borrow the administrator")
+            administrator.createEmeraldID(account: user.address, discordID: discordID)
+        }
+        execute {
+            log("Created EmeraldID")
+        }
+    }`;
 }
 
 const resetEmeraldID = (wallet) => {
