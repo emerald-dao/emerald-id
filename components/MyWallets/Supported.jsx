@@ -3,6 +3,7 @@ import { useFlow } from "../../context/FlowContext";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDiscord } from "../../context/DiscordContext";
+import { transformWalletNameToUrl } from "../../helpers/utils";
 
 function Supported({ imgSrc, wallet, color, buttonColor }) {
   const { checkAnyWallet } = useFlow();
@@ -41,7 +42,7 @@ function Supported({ imgSrc, wallet, color, buttonColor }) {
             <img src="/img/checkmark.png" alt="check mark" />
           </div>
           <p>Your ID: {created}</p>
-          <Link href={`/${wallet.toLowerCase()}`}>
+          <Link href={`/${transformWalletNameToUrl(wallet)}`}>
             <a style={{ background: 'transparent', border: `1px solid #37dabc` }}>Manage</a>
           </Link>
         </div>
