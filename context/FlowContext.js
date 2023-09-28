@@ -59,7 +59,7 @@ export default function FlowProvider({ children }) {
     if (authnService.includes('blocto')) {
       localStorage.setItem('selectedWallet', 'Blocto');
       return 'Blocto';
-    } else if (authnService.includes('lilico')) {
+    } else if (authnService.includes('fcw')) {
       localStorage.setItem('selectedWallet', 'Lilico');
       return 'Lilico';
     } else if (authnService.includes('dapper')) {
