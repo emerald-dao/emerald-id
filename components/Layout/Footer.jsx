@@ -10,7 +10,7 @@ function Footer() {
       <div>
         <div className={`${styles.container} ${styles.gutterY} medium column`}>
           <div className={`${styles.flexContainer}`}>
-            <p>2022. All rights reserved.</p>
+            <p>2023. All rights reserved.</p>
             <Link href="/">
               <a><Logo /></a>
             </Link>
