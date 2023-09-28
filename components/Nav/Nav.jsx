@@ -30,7 +30,7 @@ function Nav() {
     <nav className={styles.nav}>
       <Link className="flex white-color" href="/">
         <a>
-          <img src="/img/emerald_logo.png" alt="EmeraldID Logo" />
+          <img src="/img/emerald-id-logo.png" alt="EmeraldID Logo" />
           <h1>EmeraldID</h1>
         </a>
       </Link>
