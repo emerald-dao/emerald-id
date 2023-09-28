@@ -4,4 +4,4 @@ Supported wallets:
 
 1. Blocto
 2. Dapper Wallet
-3. Lilico
+3. Flow Core (ex-Lilico)

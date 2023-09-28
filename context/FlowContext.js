@@ -25,7 +25,7 @@ export default function FlowProvider({ children }) {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_BLOCTO)
         .put("discovery.wallet.method", "IFRAME/RPC")
-    } else if (wallet === 'Lilico') {
+    } else if (wallet === 'Flow Core') {
       fcl.config()
         .put("discovery.wallet", "chrome-extension://hpclkefagolihohboafpheddmmgdffjm/popup.html")
         .put("discovery.wallet.method", "EXT/RPC")
@@ -44,8 +44,8 @@ export default function FlowProvider({ children }) {
     await checkExists(user.addr);
     if (selectedWallet === 'Blocto') {
       await router.push('/blocto');
-    } else if (selectedWallet === 'Lilico') {
-      await router.push('/lilico');
+    } else if (selectedWallet === 'Flow Core') {
+      await router.push('/flow-core');
     } else if (selectedWallet === 'Dapper') {
       await router.push('/dapper');
     } else {
@@ -60,8 +60,8 @@ export default function FlowProvider({ children }) {
       localStorage.setItem('selectedWallet', 'Blocto');
       return 'Blocto';
     } else if (authnService.includes('fcw')) {
-      localStorage.setItem('selectedWallet', 'Lilico');
-      return 'Lilico';
+      localStorage.setItem('selectedWallet', 'Flow Core');
+      return 'Flow Core';
     } else if (authnService.includes('dapper')) {
       localStorage.setItem('selectedWallet', 'Dapper');
       return 'Dapper';
@@ -222,7 +222,7 @@ export default function FlowProvider({ children }) {
     // Makes sure the user can't navigate between pages directly
     // and link their wrong id
     const pathname = router.pathname;
-    const currentWallet = pathname === '/blocto' ? 'Blocto' : pathname === '/lilico' ? 'Lilico' : pathname === '/dapper' ? 'Dapper' : null;
+    const currentWallet = pathname === '/blocto' ? 'Blocto' : pathname === '/flow-core' ? 'Flow Core' : pathname === '/dapper' ? 'Dapper' : null;
     if (currentWallet !== localStorage.getItem('selectedWallet')) {
       unauthenticate();
     }

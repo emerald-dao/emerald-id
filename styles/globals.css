@@ -8,7 +8,9 @@ body {
   color: white;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-bottom: 0px;
 }
 
@@ -43,8 +45,8 @@ h1, h2, h3 {
   color: #fff;
 }
 
-.lilico-color {
-  color: #fc814a;
+.flow-core-color {
+  color: #28e92a;
 }
 
 .flexContainer {

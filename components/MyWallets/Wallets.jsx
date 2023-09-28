@@ -20,8 +20,8 @@ function Wallets() {
           buttonColor={'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)'}
         />
         <Supported
-          imgSrc={"/img/lilico-logo.jpg"}
-          wallet={'Lilico'}
+          imgSrc={"/img/flow-core-logo.png"}
+          wallet={'Flow Core'}
           description={'The First Extension Wallet on Flow.'}
           color={'#fc814a'}
           buttonColor={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'}

@@ -23,10 +23,10 @@ function Wallets() {
           released={true}
         />
         <Supported
-          imgSrc={"/img/lilico-logo.jpg"}
-          wallet={'Lilico'}
+          imgSrc={"/img/flow-core-logo.png"}
+          wallet={'Flow Core'}
           description={'The first wallet extension on Flow.'}
-          color={'lilico-color'}
+          color={'flow-core-color'}
           released={true}
         />
       </div>
