@@ -55,6 +55,7 @@ export default function FlowProvider({ children }) {
 
   function setSelectedWallet(user) {
     const authnService = user.services[0].uid;
+    console.log(authnService)
     if (authnService.includes('blocto')) {
       localStorage.setItem('selectedWallet', 'Blocto');
       return 'Blocto';
