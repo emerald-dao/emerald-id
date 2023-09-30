@@ -26,7 +26,7 @@ function Supported({ imgSrc, wallet, color, buttonColor }) {
         <img src={imgSrc} alt="wallet image" />
         <div className={styles.info}>
           <h3 style={{ color: color }}>{wallet}</h3>
-          <Link href={`/${wallet.toLowerCase()}`}>
+          <Link href={`/${transformWalletNameToUrl(wallet)}`}>
             <a style={{ backgroundImage: buttonColor }}>Create ID</a>
           </Link>
         </div>

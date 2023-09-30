@@ -24,7 +24,7 @@ function Wallets() {
           wallet={'Flow Core'}
           description={'The First Extension Wallet on Flow.'}
           color={'#fc814a'}
-          buttonColor={'linear-gradient(-60deg, #ff5858 0%, #f09819 100%)'}
+          buttonColor={'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);'}
         />
       </div>
     </div>
