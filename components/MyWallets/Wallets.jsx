@@ -23,7 +23,7 @@ function Wallets() {
           imgSrc={"/img/flow-core-logo.png"}
           wallet={'Flow Core'}
           description={'The First Extension Wallet on Flow.'}
-          color={'#fc814a'}
+          color={'#28e92a'}
           buttonColor={'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);'}
         />
       </div>
