@@ -27,7 +27,7 @@ function FlowCore() {
           : createMessage === 'CREATED'
             ? <Owned />
             : createMessage === 'NONE'
-              ? <Create borderColor={'#28e92a'} buttonColor={'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);'} />
+              ? <Create borderColor={'#28e92a'} buttonColor={'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)'} />
               : createMessage.substring(0, 2) === '0x'
                 ? <Differing current={'discord'} differing={createMessage} />
                 : createMessage
