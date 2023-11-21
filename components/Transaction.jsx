@@ -12,7 +12,7 @@ function Transaction() {
           <br />
           <small>Waiting for transaction approval.</small>
         </span>
-        <progress indeterminate="true">Initializing...</progress>
+        <progress>Initializing...</progress>
       </div>
     );
   };
@@ -33,7 +33,7 @@ function Transaction() {
             finalized in a block.
           </small>
         </span>
-        <progress indeterminate="true">Executing</progress>
+        <progress>Executing</progress>
       </div>
     );
   };
