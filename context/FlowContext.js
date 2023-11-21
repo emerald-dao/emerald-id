@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
 import * as fcl from '@onflow/fcl'
-import * as t from '@onflow/types'
 import { serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
 import "../flow/config";
@@ -105,12 +104,12 @@ export default function FlowProvider({ children }) {
     const wallet = localStorage.getItem('selectedWallet');
     const script = scripts['checkEmeraldIDAccount'](wallet);
     try {
-      const response = await fcl.send([
-        fcl.script(script),
-        fcl.args([
-          fcl.arg(address, t.Address)
-        ]),
-      ]).then(fcl.decode);
+      const response = await fcl.query({
+        cadence: script,
+        args: (arg, t) => [
+          arg(address, t.Address)
+        ],
+      });
       return response;
     } catch (e) {
       console.log(e);
@@ -120,12 +119,12 @@ export default function FlowProvider({ children }) {
   const checkAnyWallet = async (discordId, wallet) => {
     const script = scripts['checkEmeraldIDDiscord'](wallet);
     try {
-      const response = await fcl.send([
-        fcl.script(script),
-        fcl.args([
-          fcl.arg(discordId, t.String)
-        ]),
-      ]).then(fcl.decode);
+      const response = await fcl.query({
+        cadence: script,
+        args: (arg, t) => [
+          arg(discordId, t.String)
+        ],
+      });
       return response
     } catch (e) {
       console.log(e);
@@ -136,12 +135,12 @@ export default function FlowProvider({ children }) {
     const wallet = localStorage.getItem('selectedWallet');
     const script = scripts['checkEmeraldIDDiscord'](wallet);
     try {
-      const response = await fcl.send([
-        fcl.script(script),
-        fcl.args([
-          fcl.arg(discordId, t.String)
-        ]),
-      ]).then(fcl.decode);
+      const response = await fcl.query({
+        cadence: script,
+        args: (arg, t) => [
+          arg(discordId, t.String)
+        ],
+      });
       return response
     } catch (e) {
       console.log(e);
@@ -158,16 +157,16 @@ export default function FlowProvider({ children }) {
       const txCode = trxScripts[scriptName](wallet);
       const serverSigner = serverAuthorization(scriptName, wallet, oauthData);
 
-      const transactionId = await fcl.send([
-        fcl.transaction(txCode),
-        fcl.args([
-          fcl.arg(discordId, t.String)
+      const transactionId = await fcl.mutate({
+        cadence: (txCode),
+        args: (arg, t) => ([
+          arg(discordId, t.String)
         ]),
-        fcl.proposer(fcl.authz),
-        fcl.payer(fcl.authz),
-        fcl.authorizations([serverSigner, fcl.authz]),
-        fcl.limit(300)
-      ]).then(fcl.decode);
+        proposer: (fcl.authz),
+        payer: (fcl.authz),
+        authorizations: [serverSigner, fcl.authz],
+        limit: 300
+      });
       setTxId(transactionId);
 
       fcl.tx(transactionId).subscribe((res) => {
@@ -192,14 +191,14 @@ export default function FlowProvider({ children }) {
       const txCode = trxScripts[scriptName](wallet);
       const serverSigner = serverAuthorization(scriptName, wallet);
 
-      const transactionId = await fcl.send([
-        fcl.transaction(txCode),
-        fcl.args([]),
-        fcl.proposer(fcl.authz),
-        fcl.payer(fcl.authz),
-        fcl.authorizations([serverSigner, fcl.authz]),
-        fcl.limit(300)
-      ]).then(fcl.decode);
+      const transactionId = await fcl.mutate({
+        cadence: (txCode),
+        args: (arg, t) => ([]),
+        proposer: (fcl.authz),
+        payer: (fcl.authz),
+        authorizations: ([serverSigner, fcl.authz]),
+        limit: (300)
+      });
       setTxId(transactionId);
 
       fcl.tx(transactionId).subscribe((res) => {

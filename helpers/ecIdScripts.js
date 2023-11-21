@@ -1,6 +1,3 @@
-const fcl = require("@onflow/fcl");
-const t = require("@onflow/types");
-
 const createEmeraldIDTxCode = "import EmeraldIdentity from 0x39e42c67cc851cfb\n\ntransaction(discordID: String) {\n    prepare(admin: AuthAccount, user: AuthAccount) {\n        let administrator = admin.borrow<&EmeraldIdentity.Administrator>(from: EmeraldIdentity.AdministratorStoragePath)\n                                    ?? panic(\"Could not borrow the administrator\")\n        administrator.createEmeraldID(account: user.address, discordID: discordID)\n    }\n\n    execute {\n        log(\"Created EmeraldID\")\n    }\n}";
 
 const createEmeraldID = (wallet) => {
