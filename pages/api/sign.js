@@ -27,6 +27,9 @@ export default async function handler(req, res) {
   const { scriptName, wallet, oauthData, signable } = req.body;
 
   const scriptCode = trxScripts[scriptName](wallet);
+  if (!scriptCode) {
+    return res.status(500).json({ message: 'No such supported script code' })
+  }
 
   const { message } = signable;
   const decoded = decode(Buffer.from(message.slice(64), 'hex'));
