@@ -24,7 +24,7 @@ export default function FlowProvider({ children }) {
     if (wallet === 'Blocto') {
       fcl.config()
         .put("discovery.wallet", `https://wallet-v2.blocto.app/${process.env.NEXT_PUBLIC_BLOCTO_APP_ID}/flow/authn`)
-        .put("discovery.wallet.method", "HTTP/POST")
+        .put("discovery.wallet.method", "IFRAME/RPC")
     } else if (wallet === 'Flow Core') {
       fcl.config()
         .put("discovery.wallet", "chrome-extension://hpclkefagolihohboafpheddmmgdffjm/popup.html")
