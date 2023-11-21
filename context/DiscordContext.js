@@ -9,9 +9,12 @@ export const useDiscord = () => useContext(DiscordContext);
 export default function DiscordProvider({ children }) {
   const [discordUsername, setDiscordUsername] = useState('');
   const [discordId, setDiscordId] = useState();
-  
+
   function checkUpdates() {
-    const discordInfo = JSON.parse(localStorage.getItem('discordInfo'));
+    let discordInfo = localStorage.getItem('discordInfo')
+    if (discordInfo != "undefined") {
+      discordInfo = JSON.parse(discordInfo);
+    }
     console.log(discordInfo)
     setDiscordUsername(discordInfo?.username);
     setDiscordId(discordInfo?.id);

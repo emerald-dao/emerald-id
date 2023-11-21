@@ -25,6 +25,7 @@ export default function FlowProvider({ children }) {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_BLOCTO)
         .put("discovery.wallet.method", "IFRAME/RPC")
+        .put('app.detail.id', process.env.NEXT_PUBLIC_BLOCTO_APP_ID)
     } else if (wallet === 'Flow Core') {
       fcl.config()
         .put("discovery.wallet", "chrome-extension://hpclkefagolihohboafpheddmmgdffjm/popup.html")
