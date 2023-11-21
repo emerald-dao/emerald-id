@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/credential-providers": "^3.54.0",
-    "@onflow/fcl": "1.0.1",
+    "@onflow/fcl": "1.8.1",
     "@onflow/types": "^0.0.6",
     "@picocss/pico": "^1.4.1",
     "crypto": "^1.0.1",
