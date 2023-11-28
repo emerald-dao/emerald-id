@@ -28,7 +28,7 @@ function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <Link className="flex white-color" href="/">
+      <Link className="flex white-color" href="/" legacyBehavior>
         <a>
           <img src="/img/emerald-id-logo.png" alt="EmeraldID Logo" />
           <h1>EmeraldID</h1>

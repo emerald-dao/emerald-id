@@ -26,7 +26,7 @@ function Supported({ imgSrc, wallet, color, buttonColor }) {
         <img src={imgSrc} alt="wallet image" />
         <div className={styles.info}>
           <h3 style={{ color: color }}>{wallet}</h3>
-          <Link href={`/${transformWalletNameToUrl(wallet)}`}>
+          <Link href={`/${transformWalletNameToUrl(wallet)}`} legacyBehavior>
             <a style={{ backgroundImage: buttonColor }}>Create ID</a>
           </Link>
         </div>
@@ -42,7 +42,7 @@ function Supported({ imgSrc, wallet, color, buttonColor }) {
             <img src="/img/checkmark.png" alt="check mark" />
           </div>
           <p>Your ID: {created}</p>
-          <Link href={`/${transformWalletNameToUrl(wallet)}`}>
+          <Link href={`/${transformWalletNameToUrl(wallet)}`} legacyBehavior>
             <a style={{ background: 'transparent', border: `1px solid #37dabc` }}>Manage</a>
           </Link>
         </div>

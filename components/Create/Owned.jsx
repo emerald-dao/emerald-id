@@ -15,7 +15,7 @@ function Owned() {
         ? <button style={{ backgroundColor: '#fd5c63', opacity: .3 }}>Resetting...</button>
         :
         <div className={styles.ownedButtons}>
-          <Link href="/me">
+          <Link href="/me" legacyBehavior>
             <a style={{ backgroundColor: '#37dabc' }}>View my IDs</a>
           </Link>
           <button style={{ backgroundColor: 'transparent', border: '1px solid #fd5c63', color: '#fd5c63' }} onClick={resetEmeraldID}>Reset</button>

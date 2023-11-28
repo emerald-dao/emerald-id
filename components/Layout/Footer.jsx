@@ -11,7 +11,7 @@ function Footer() {
         <div className={`${styles.container} ${styles.gutterY} medium column`}>
           <div className={`${styles.flexContainer}`}>
             <p>2023. All rights reserved.</p>
-            <Link href="/">
+            <Link href="/" legacyBehavior>
               <a><Logo /></a>
             </Link>
             <p>

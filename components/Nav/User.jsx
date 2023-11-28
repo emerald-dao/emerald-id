@@ -12,7 +12,7 @@ function User() {
     )
   } else {
     return (
-      <Link href="/me">
+      <Link href="/me" legacyBehavior>
         <a className={`${styles.authentication} ${styles.logout}`}>
           <span>{discordUsername}</span>
         </a>
