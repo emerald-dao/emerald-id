@@ -1,4 +1,4 @@
-import * as fcl from '@onflow/fcl'
+import * as fcl from '@blocto/fcl'
 
 // sign transaction with verify the cadence code
 const signWithVerify = async (args) => {

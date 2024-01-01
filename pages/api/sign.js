@@ -1,6 +1,6 @@
 import "../../flow/config.js";
 
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 import { decode } from 'rlp';
 import { SHA3 } from "sha3";
 

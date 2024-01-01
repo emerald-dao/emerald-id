@@ -1,4 +1,4 @@
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@blocto/fcl";
 
 fcl.config()
   .put("app.detail.title", "Emerald ID")

@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
-import * as fcl from '@onflow/fcl'
+import * as fcl from '@blocto/fcl'
 import { serverAuthorization } from '../helpers/serverAuth.js'
 import { useContext } from 'react';
 import "../flow/config";
@@ -54,7 +54,6 @@ export default function FlowProvider({ children }) {
 
   function setSelectedWallet(user) {
     const authnService = user.services[0].uid;
-    console.log(authnService)
     if (authnService.includes('blocto')) {
       localStorage.setItem('selectedWallet', 'Blocto');
       return 'Blocto';
@@ -75,8 +74,6 @@ export default function FlowProvider({ children }) {
   //  a) If it does, say go to that Discord account.
   //  b) If it doesn't say create.
   const checkExists = async (address) => {
-    console.log("ADDRESS", address);
-    console.log('DISCORDID', discordId);
     const existsWithDiscord = await checkEmeraldIDDiscord(discordId);
     if (existsWithDiscord === address) {
       setCreateMessage('CREATED');
@@ -175,7 +172,8 @@ export default function FlowProvider({ children }) {
           setTimeout(() => setTransactionInProgress(false), 2000)
         }
       })
-      return fcl.tx(transactionId).onceSealed();
+      await fcl.tx(transactionId).onceSealed();
+      setCreateMessage('CREATED');
     } catch (e) {
       setTimeout(() => setTransactionInProgress(false), 2000)
       console.log(e);
@@ -207,7 +205,8 @@ export default function FlowProvider({ children }) {
           setTimeout(() => setTransactionInProgress(false), 2000);
         }
       })
-      return fcl.tx(transactionId).onceSealed();
+      await fcl.tx(transactionId).onceSealed();
+      setCreateMessage('NONE');
     } catch (e) {
       setTimeout(() => setTransactionInProgress(false), 2000)
       return false;
