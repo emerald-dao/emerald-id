@@ -20,11 +20,18 @@ function Wallets() {
           buttonColor={'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)'}
         />
         <Supported
-          imgSrc={"/img/flow-core-logo.png"}
-          wallet={'Flow Core'}
+          imgSrc={"/img/flow-ref-logo.png"}
+          wallet={'Flow Ref'}
           description={'The First Extension Wallet on Flow.'}
           color={'#28e92a'}
           buttonColor={'linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)'}
+        />
+        <Supported
+          imgSrc={"/img/shadow-logo.jpeg"}
+          wallet={'Shadow'}
+          description={'Your web3 sidekick.'}
+          color={'#600bff'}
+          buttonColor={'linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%)'}
         />
       </div>
     </div>

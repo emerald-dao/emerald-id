@@ -1,7 +1,7 @@
 // Welcome to the EmeraldIdentity contract!
 //
-// This contract is a service that maps a user's on-chain address
-// to their DiscordID. 
+// This contract is a service that maps a user's on-chain 
+// SHADOW address to their DiscordID. 
 //
 // A user cannot configure their own EmeraldID. It must be done 
 // by someone who has access to the Administrator resource.
@@ -11,11 +11,7 @@
 // multiple addresses to your DiscordID, and you cannot configure
 // multiple DiscordIDs to your address. 1-1.
 
-import EmeraldIdentityDapper from "./EmeraldIdentityDapper.cdc"
-import EmeraldIdentityLilico from "./EmeraldIdentityLilico.cdc"
-import EmeraldIdentityShadow from "./EmeraldIdentityShadow.cdc"
-
-pub contract EmeraldIdentity {
+pub contract EmeraldIdentityShadow {
 
     //
     // Paths
@@ -40,9 +36,9 @@ pub contract EmeraldIdentity {
 
         pub fun createEmeraldID(account: Address, discordID: String) {
             pre {
-                EmeraldIdentity.getAccountFromDiscord(discordID: discordID) == nil:
+                EmeraldIdentityShadow.getAccountFromDiscord(discordID: discordID) == nil:
                     "The old discordID must remove their EmeraldID first."
-                EmeraldIdentity.getDiscordFromAccount(account: account) == nil: 
+                EmeraldIdentityShadow.getDiscordFromAccount(account: account) == nil: 
                     "The old account must remove their EmeraldID first."
             }
 
@@ -53,12 +49,12 @@ pub contract EmeraldIdentity {
         }
 
         pub fun removeByAccount(account: Address) {
-            let discordID = EmeraldIdentity.getDiscordFromAccount(account: account) ?? panic("This EmeraldID does not exist!")
+            let discordID = EmeraldIdentityShadow.getDiscordFromAccount(account: account) ?? panic("This EmeraldID does not exist!")
             self.remove(account: account, discordID: discordID)
         }
 
         pub fun removeByDiscord(discordID: String) {
-            let account = EmeraldIdentity.getAccountFromDiscord(discordID: discordID) ?? panic("This EmeraldID does not exist!")
+            let account = EmeraldIdentityShadow.getAccountFromDiscord(discordID: discordID) ?? panic("This EmeraldID does not exist!")
             self.remove(account: account, discordID: discordID)
         }
 
@@ -70,7 +66,7 @@ pub contract EmeraldIdentity {
         }
 
         pub fun createAdministrator(): Capability<&Administrator> {
-            return EmeraldIdentity.account.getCapability<&Administrator>(EmeraldIdentity.AdministratorPrivatePath)
+            return EmeraldIdentityShadow.account.getCapability<&Administrator>(EmeraldIdentityShadow.AdministratorPrivatePath)
         }
 
         init() {
@@ -82,38 +78,20 @@ pub contract EmeraldIdentity {
     /*** USE THE BELOW FUNCTIONS FOR SECURE VERIFICATION OF ID ***/ 
 
     pub fun getDiscordFromAccount(account: Address): String?  {
-        let admin = EmeraldIdentity.account.borrow<&Administrator>(from: EmeraldIdentity.AdministratorStoragePath)!
+        let admin = EmeraldIdentityShadow.account.borrow<&Administrator>(from: EmeraldIdentityShadow.AdministratorStoragePath)!
         return admin.accountToDiscord[account]
     }
 
     pub fun getAccountFromDiscord(discordID: String): Address? {
-        let admin = EmeraldIdentity.account.borrow<&Administrator>(from: EmeraldIdentity.AdministratorStoragePath)!
+        let admin = EmeraldIdentityShadow.account.borrow<&Administrator>(from: EmeraldIdentityShadow.AdministratorStoragePath)!
         return admin.discordToAccount[discordID]
     }
 
-    pub fun getEmeraldIDs(discordID: String): {String: Address} {
-        let response: {String: Address} = {}
-        if let bloctoID = self.getAccountFromDiscord(discordID: discordID) {
-            response["blocto"] = bloctoID
-        }
-        if let dapperID = EmeraldIdentityDapper.getAccountFromDiscord(discordID: discordID) {
-            response["dapper"] = dapperID
-        }
-        if let lilicoID = EmeraldIdentityLilico.getAccountFromDiscord(discordID: discordID) {
-            response["lilico"] = lilicoID
-        }
-        if let shadowID = EmeraldIdentityShadow.getAccountFromDiscord(discordID: discordID) {
-            response["shadow"] = shadowID
-        }
-        return response
-    }
-
     init() {
-        self.AdministratorStoragePath = /storage/EmeraldIDAdministrator
-        self.AdministratorPrivatePath = /private/EmeraldIDAdministrator
+        self.AdministratorStoragePath = /storage/EmeraldIDShadowAdministrator
+        self.AdministratorPrivatePath = /private/EmeraldIDShadowAdministrator
 
-        self.account.save(<- create Administrator(), to: EmeraldIdentity.AdministratorStoragePath)
-        self.account.link<&Administrator>(EmeraldIdentity.AdministratorPrivatePath, target: EmeraldIdentity.AdministratorStoragePath)
+        self.account.save(<- create Administrator(), to: EmeraldIdentityShadow.AdministratorStoragePath)
+        self.account.link<&Administrator>(EmeraldIdentityShadow.AdministratorPrivatePath, target: EmeraldIdentityShadow.AdministratorStoragePath)
     }
 }
- 

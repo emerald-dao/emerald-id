@@ -7,7 +7,7 @@ import { useFlow } from "../context/FlowContext";
 import styles from "../styles/Wallet.module.scss";
 import { useEffect } from "react";
 
-function FlowCore() {
+function FlowRef() {
   const { createMessage, unauthenticate } = useFlow();
   const { discordId } = useDiscord();
 
@@ -18,8 +18,8 @@ function FlowCore() {
   return (
     <>
       <div className={styles.wallet}>
-        <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="flow-core-color">Flow Core</span></h1>
-        <p>Begin verifying all of your Flow Core assets.</p>
+        <h1><span className="emerald-id-color">EmeraldID</span> <span className="white-color">{'<>'}</span> <span className="flow-ref-color">Flow Ref</span></h1>
+        <p>Begin verifying all of your Flow Ref assets.</p>
       </div>
       <div className={styles.section}>
         {!discordId
@@ -39,4 +39,4 @@ function FlowCore() {
   )
 }
 
-export default FlowCore;
+export default FlowRef;

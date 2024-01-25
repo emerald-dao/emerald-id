@@ -45,8 +45,12 @@ h3 {
   color: #fff;
 }
 
-.flow-core-color {
+.flow-ref-color {
   color: #28e92a;
+}
+
+.shadow-color {
+  color: #600bff;
 }
 
 .flexContainer {

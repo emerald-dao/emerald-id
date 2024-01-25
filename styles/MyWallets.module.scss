@@ -5,7 +5,13 @@
   .list {
     position: relative;
     top: 50px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 675px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
     width: 80%;
     left: 10%;
     justify-content: center;
@@ -14,8 +20,6 @@
 
     .supported {
       position: relative;
-      width: 350px;
-      max-width: 800px;
       background: rgb(11, 11, 11);
       display: flex;
       flex-direction: column;
@@ -41,6 +45,7 @@
 
         .header {
           display: flex;
+
           img {
             width: 50px;
             height: 50px;

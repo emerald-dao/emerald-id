@@ -2,7 +2,7 @@ const createEmeraldIDTxCode = "import EmeraldIdentity from 0x39e42c67cc851cfb\n\
 
 const createEmeraldID = (wallet) => {
     if (wallet !== 'Dapper') {
-        const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Core' ? 'EmeraldIdentityLilico' : null;
+        const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Ref' ? 'EmeraldIdentityLilico' : wallet === 'Shadow' ? 'EmeraldIdentityShadow' : null;
         return createEmeraldIDTxCode.replaceAll("EmeraldIdentity", contractName);
     }
     return `import EmeraldIdentityDapper from 0x39e42c67cc851cfb
@@ -21,7 +21,7 @@ const createEmeraldID = (wallet) => {
 }
 
 const resetEmeraldID = (wallet) => {
-    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Core' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
+    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Ref' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : wallet === 'Shadow' ? 'EmeraldIdentityShadow' : null;
     return `import ${contractName} from 0x39e42c67cc851cfb
 
     // Signed by Administrator
@@ -39,7 +39,7 @@ const resetEmeraldID = (wallet) => {
 }
 
 const checkEmeraldIDAccount = (wallet) => {
-    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Core' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
+    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Ref' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : wallet === 'Shadow' ? 'EmeraldIdentityShadow' : null;
     return `
         import ${contractName} from 0xEmeraldIdentity
         pub fun main(account: Address): String? {    
@@ -49,7 +49,7 @@ const checkEmeraldIDAccount = (wallet) => {
 }
 
 const checkEmeraldIDDiscord = (wallet) => {
-    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Core' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : null;
+    const contractName = wallet === 'Blocto' ? 'EmeraldIdentity' : wallet === 'Flow Ref' ? 'EmeraldIdentityLilico' : wallet === 'Dapper' ? 'EmeraldIdentityDapper' : wallet === 'Shadow' ? 'EmeraldIdentityShadow' : null;
     return `
         import ${contractName} from 0xEmeraldIdentity
         pub fun main(discordID: String): Address? {    

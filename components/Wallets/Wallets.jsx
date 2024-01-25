@@ -23,10 +23,17 @@ function Wallets() {
           released={true}
         />
         <Supported
-          imgSrc={"/img/flow-core-logo.png"}
-          wallet={'Flow Core'}
+          imgSrc={"/img/flow-ref-logo.png"}
+          wallet={'Flow Ref'}
           description={'The first wallet extension on Flow.'}
-          color={'flow-core-color'}
+          color={'flow-ref-color'}
+          released={true}
+        />
+        <Supported
+          imgSrc={"/img/shadow-logo.jpeg"}
+          wallet={'Shadow'}
+          description={'Your web3 sidekick.'}
+          color={'shadow-color'}
           released={true}
         />
       </div>

@@ -24,7 +24,7 @@ export default function FlowProvider({ children }) {
       fcl.config()
         .put("discovery.wallet", `https://wallet-v2.blocto.app/${process.env.NEXT_PUBLIC_BLOCTO_APP_ID}/flow/authn`)
         .put("discovery.wallet.method", "IFRAME/RPC")
-    } else if (wallet === 'Flow Core') {
+    } else if (wallet === 'Flow Ref') {
       fcl.config()
         .put("discovery.wallet", "chrome-extension://hpclkefagolihohboafpheddmmgdffjm/popup.html")
         .put("discovery.wallet.method", "EXT/RPC")
@@ -32,6 +32,10 @@ export default function FlowProvider({ children }) {
       fcl.config()
         .put("discovery.wallet", process.env.NEXT_PUBLIC_DISCOVERY_WALLET_DAPPER)
         .put("discovery.wallet.method", "POP/RPC")
+    } else if (wallet === 'Shadow') {
+      fcl.config()
+        .put("discovery.wallet", "chrome-extension://lmmpaefggfcmnoddemmgdppddppnmhek/index.html")
+        .put("discovery.wallet.method", "EXT/RPC")
     }
   }
 
@@ -43,10 +47,12 @@ export default function FlowProvider({ children }) {
     await checkExists(user.addr);
     if (selectedWallet === 'Blocto') {
       await router.push('/blocto');
-    } else if (selectedWallet === 'Flow Core') {
-      await router.push('/flow-core');
+    } else if (selectedWallet === 'Flow Ref') {
+      await router.push('/flow-ref');
     } else if (selectedWallet === 'Dapper') {
       await router.push('/dapper');
+    } else if (selectedWallet === 'Shadow') {
+      await router.push('/shadow');
     } else {
       unauthenticate();
     }
@@ -58,11 +64,14 @@ export default function FlowProvider({ children }) {
       localStorage.setItem('selectedWallet', 'Blocto');
       return 'Blocto';
     } else if (authnService.includes('fcw')) {
-      localStorage.setItem('selectedWallet', 'Flow Core');
-      return 'Flow Core';
+      localStorage.setItem('selectedWallet', 'Flow Ref');
+      return 'Flow Ref';
     } else if (authnService.includes('dapper')) {
       localStorage.setItem('selectedWallet', 'Dapper');
       return 'Dapper';
+    } else if (authnService.includes('shadow')) {
+      localStorage.setItem('selectedWallet', 'Shadow');
+      return 'Shadow';
     }
   }
 
@@ -220,7 +229,7 @@ export default function FlowProvider({ children }) {
     // Makes sure the user can't navigate between pages directly
     // and link their wrong id
     const pathname = router.pathname;
-    const currentWallet = pathname === '/blocto' ? 'Blocto' : pathname === '/flow-core' ? 'Flow Core' : pathname === '/dapper' ? 'Dapper' : null;
+    const currentWallet = pathname === '/blocto' ? 'Blocto' : pathname === '/flow-ref' ? 'Flow Ref' : pathname === '/dapper' ? 'Dapper' : pathname === '/shadow' ? 'Shadow' : null;
     if (currentWallet !== localStorage.getItem('selectedWallet')) {
       unauthenticate();
     }
