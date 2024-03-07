@@ -28,7 +28,7 @@ pub contract EmeraldIdentity {
     //
     pub event EmeraldIDCreated(account: Address, discordID: String)
     pub event EmeraldIDRemoved(account: Address, discordID: String)
-    
+
     //
     // Administrator
     //
@@ -41,9 +41,9 @@ pub contract EmeraldIdentity {
         pub fun createEmeraldID(account: Address, discordID: String) {
             pre {
                 EmeraldIdentity.getAccountFromDiscord(discordID: discordID) == nil:
-                    "The old discordID must remove their EmeraldID first."
+                "The old discordID must remove their EmeraldID first."
                 EmeraldIdentity.getDiscordFromAccount(account: account) == nil: 
-                    "The old account must remove their EmeraldID first."
+                "The old account must remove their EmeraldID first."
             }
 
             self.accountToDiscord[account] = discordID
@@ -108,6 +108,24 @@ pub contract EmeraldIdentity {
         return response
     }
 
+
+    pub fun resolveDiscordFromAccount(account: Address): String? {
+
+        if let bloctoID = self.getDiscordFromAccount(account: account) {
+            return bloctoID
+        }
+        if let dapperID = EmeraldIdentityDapper.getDiscordFromAccount(account:account) {
+            return dapperID
+        }
+        if let lilicoID = EmeraldIdentityLilico.getDiscordFromAccount(account:account) {
+            return lilicoID
+        }
+        if let shadowID = EmeraldIdentityShadow.getDiscrodFromAccount(account:account) {
+            return shadowID
+        }
+        return nil
+    }
+
     init() {
         self.AdministratorStoragePath = /storage/EmeraldIDAdministrator
         self.AdministratorPrivatePath = /private/EmeraldIDAdministrator
@@ -116,4 +134,4 @@ pub contract EmeraldIdentity {
         self.account.link<&Administrator>(EmeraldIdentity.AdministratorPrivatePath, target: EmeraldIdentity.AdministratorStoragePath)
     }
 }
- 
+
