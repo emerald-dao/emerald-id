@@ -43,7 +43,7 @@ pub contract EmeraldIdentity {
                 EmeraldIdentity.getAccountFromDiscord(discordID: discordID) == nil:
                     "The old discordID must remove their EmeraldID first."
                 EmeraldIdentity.getDiscordFromAccount(account: account) == nil: 
-                "The old account must remove their EmeraldID first."
+                    "The old account must remove their EmeraldID first."
             }
 
             self.accountToDiscord[account] = discordID
