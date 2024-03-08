@@ -109,17 +109,16 @@ pub contract EmeraldIdentity {
 
 
     pub fun resolveDiscordFromAccount(account: Address): String? {
-
         if let bloctoID = self.getDiscordFromAccount(account: account) {
             return bloctoID
         }
-        if let dapperID = EmeraldIdentityDapper.getDiscordFromAccount(account:account) {
+        if let dapperID = EmeraldIdentityDapper.getDiscordFromAccount(account: account) {
             return dapperID
         }
-        if let lilicoID = EmeraldIdentityLilico.getDiscordFromAccount(account:account) {
+        if let lilicoID = EmeraldIdentityLilico.getDiscordFromAccount(account: account) {
             return lilicoID
         }
-        if let shadowID = EmeraldIdentityShadow.getDiscrodFromAccount(account:account) {
+        if let shadowID = EmeraldIdentityShadow.getDiscordFromAccount(account: account) {
             return shadowID
         }
         return nil
