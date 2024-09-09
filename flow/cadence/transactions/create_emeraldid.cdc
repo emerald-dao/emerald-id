@@ -1,8 +1,8 @@
-import EmeraldIdentityLilico from 0x39e42c67cc851cfb
+import EmeraldIdentityLilico from "../EmeraldIdentityLilico.cdc"
 
 transaction(discordID: String) {
-    prepare(admin: AuthAccount, user: AuthAccount) {
-        let administrator = admin.borrow<&EmeraldIdentityLilico.Administrator>(from: EmeraldIdentityLilico.AdministratorStoragePath)
+    prepare(admin: auth(Storage) &Account, user: &Account) {
+        let administrator = admin.storage.borrow<&EmeraldIdentityLilico.Administrator>(from: EmeraldIdentityLilico.AdministratorStoragePath)
                                     ?? panic("Could not borrow the administrator")
         administrator.createEmeraldID(account: user.address, discordID: discordID)
     }

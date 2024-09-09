@@ -4,8 +4,8 @@ transaction(discordID: String) {
 
   let Admin: &EmeraldIdentityDapper.Administrator
 
-  prepare(signer: AuthAccount) {
-    self.Admin = signer.borrow<&EmeraldIdentityDapper.Administrator>(from: EmeraldIdentityDapper.AdministratorStoragePath)
+  prepare(signer: auth(Storage) &Account) {
+    self.Admin = signer.storage.borrow<&EmeraldIdentityDapper.Administrator>(from: EmeraldIdentityDapper.AdministratorStoragePath)
                   ?? panic("The signer does not have an EmeraldIdentity Administrator.")
   }
 
